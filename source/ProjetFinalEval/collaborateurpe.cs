@@ -24,14 +24,13 @@ namespace ProjetFinalEval
         public int IDFONCTION { get; set; }
         public string NOMPE { get; set; }
         public string PRENOMPE { get; set; }
-        public string EMAILPE { get; set; }
         public byte[] IMAGEPE { get; set; }
         public string STATUT { get; set; }
         public string IdUser { get; set; }
         public HttpPostedFileBase File { get; set; }
     
+        public virtual aspnetusers aspnetusers { get; set; }
         public virtual ICollection<evaluation> evaluation { get; set; }
         public virtual fonction fonction { get; set; }
-        public virtual aspnetusers aspnetusers { get; set; }
     }
 }

@@ -73,7 +73,11 @@ namespace ProjetFinalEval.Models
         public string PRENOM { get; set; }
         public byte[] IMAGE { get; set; }
         public bool FLAGEVAL { get; set; }
-
+        public string NOMPE { get; set; }
+        public string PRENOMPE { get; set; }
+        public byte[] IMAGEPE { get; set; }
+        public string STATUT { get; set; }
+        
         public string idUser { get; set; }
         public HttpPostedFileBase File { get; set; }
     }

@@ -31,7 +31,6 @@ namespace ProjetFinalEval
         public bool FLAGEVAL { get; set; }
         public string IdUser { get; set; }
         public HttpPostedFileBase File { get; set; }
-    
         public virtual aspnetusers aspnetusers { get; set; }
         public virtual ICollection<projet> projet { get; set; }
         public virtual fonction fonction { get; set; }

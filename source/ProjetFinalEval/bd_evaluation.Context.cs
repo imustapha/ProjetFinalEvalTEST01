@@ -25,8 +25,11 @@ namespace ProjetFinalEval
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<aspnetroles> aspnetroles { get; set; }
+        public virtual DbSet<aspnetuserclaims> aspnetuserclaims { get; set; }
+        public virtual DbSet<aspnetuserlogins> aspnetuserlogins { get; set; }
+        public virtual DbSet<aspnetusers> aspnetusers { get; set; }
         public virtual DbSet<client> client { get; set; }
-        public virtual DbSet<collaborateurpe> collaborateurpe { get; set; }
         public virtual DbSet<critere> critere { get; set; }
         public virtual DbSet<evaluation> evaluation { get; set; }
         public virtual DbSet<famillecritere> famillecritere { get; set; }
@@ -35,10 +38,7 @@ namespace ProjetFinalEval
         public virtual DbSet<projet> projet { get; set; }
         public virtual DbSet<tache> tache { get; set; }
         public virtual DbSet<variable> variable { get; set; }
-        public virtual DbSet<aspnetroles> aspnetroles { get; set; }
-        public virtual DbSet<aspnetuserclaims> aspnetuserclaims { get; set; }
-        public virtual DbSet<aspnetuserlogins> aspnetuserlogins { get; set; }
-        public virtual DbSet<aspnetusers> aspnetusers { get; set; }
+        public virtual DbSet<collaborateurpe> collaborateurpe { get; set; }
         public virtual DbSet<collaborateurtitulaire> collaborateurtitulaire { get; set; }
     }
 }

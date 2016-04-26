@@ -4330,23 +4330,6 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="bd_evaluation.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>bd_evaluation.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="bd_evaluation.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>bd_evaluation.edmx</DependentUpon>
-      <LastGenOutput>bd_evaluation.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="bd_evaluation.edmx.diagram">
-      <DependentUpon>bd_evaluation.edmx</DependentUpon>
-    </Content>
-    <Content Include="bd_evaluation.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>bd_evaluation.edmx</DependentUpon>
-      <LastGenOutput>bd_evaluation.cs</LastGenOutput>
-    </Content>
     <Content Include="Content\admin\pages\media\blog\Thumbs.db" />
     <Content Include="Content\admin\pages\media\pages\Thumbs.db" />
     <Content Include="Content\global\css\components-md.css.map" />
@@ -4664,6 +4647,23 @@
     <Content Include="Content\global\plugins\typeahead\README.md" />
     <Content Include="Content\global\plugins\uniform\css\uniform.default.scss" />
     <Content Include="Content\global\plugins\uniform\README.md" />
+    <EntityDeploy Include="bd_evaluation.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>bd_evaluation.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="bd_evaluation.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>bd_evaluation.edmx</DependentUpon>
+      <LastGenOutput>bd_evaluation.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="bd_evaluation.edmx.diagram">
+      <DependentUpon>bd_evaluation.edmx</DependentUpon>
+    </Content>
+    <Content Include="bd_evaluation.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>bd_evaluation.edmx</DependentUpon>
+      <LastGenOutput>bd_evaluation.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

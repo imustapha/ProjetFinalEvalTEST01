@@ -1,14 +1,63 @@
-﻿using System;
+﻿//using ProjetFinalEval; 
+//using ProjetFinalEval.Models;
+//using System;
+//using System.Collections.Generic;
+//using System.Net;
+//using System.Linq;
+//using System.Security.Claims;
+//using System.Threading.Tasks;
+//using MySql.AspNet.Identity;
+//using System.Web;
+//using System.Web.Mvc;
+//using Microsoft.AspNet.Identity;
+//using Microsoft.AspNet.Identity.Owin;
+//using Microsoft.Owin.Security;
+//using Owin;
+using ProjetFinalEval;
+using ProjetFinalEval.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+using MySql.AspNet.Identity;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using Owin;
+
 
 namespace ProjetFinalEval.Controllers
 {
     public class CollaborateurPEController : Controller
     {
+        private ApplicationUserManager _userManager;
+        private IAuthenticationManager AuthenticationManager
+        {
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+        private async Task SignInAsync(ApplicationUser user, bool isPersistent)
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = isPersistent }, await user.GenerateUserIdentityAsync(UserManager));
+        }
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
         private bd_evaluationEntities3 bd = new bd_evaluationEntities3();
         // GET: CollaborateurPE
         public ActionResult Index()
@@ -41,40 +90,63 @@ namespace ProjetFinalEval.Controllers
 
         // POST: CollaborateurPE/Create
         [HttpPost]
-        public ActionResult Create(collaborateurpe colpe)
+        public async Task<ActionResult> Create(RegisterViewModel model)
         {
             ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION");
 
             try
             {
-                if (colpe.File.ContentLength > (2 * 1024 * 1024))
+                if (model.File.ContentLength > (2 * 1024 * 1024))
                 {
                     ModelState.AddModelError("CustomError", "File est plus 2mb");
                     return View();
                 }
-                if (!(colpe.File.ContentType == "image/jpeg" || colpe.File.ContentType == "image/gif"))
+                if (!(model.File.ContentType == "image/jpeg" || model.File.ContentType == "image/gif"))
                 {
                     ModelState.AddModelError("CustomError", "File alloued for jpeg and gif");
                     return View();
 
                 }
-                byte[] data = new byte[colpe.File.ContentLength];
-                colpe.File.InputStream.Read(data, 0, colpe.File.ContentLength);
-                colpe.IMAGEPE = data;
-                if (ModelState.IsValid)
+                byte[] data = new byte[model.File.ContentLength];
+                model.File.InputStream.Read(data, 0, model.File.ContentLength);
+                model.IMAGEPE = data;
+                 if (ModelState.IsValid)
                 {
-                    bd.collaborateurpe.Add(colpe);
-                    int x = bd.SaveChanges();
-                    return RedirectToAction("Index", bd.collaborateurpe.ToList());
+                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+                var resulte = await UserManager.CreateAsync(user, model.Password);
+
+                var userToInsert =bd.aspnetusers.Where(i=>i.UserName==user.UserName).FirstOrDefault(); 
+                    if(userToInsert != null){
+
+                        var colpe = new collaborateurpe() { IdUser = userToInsert.Id, NOMPE = model.NOMPE, PRENOMPE = model.PRENOMPE, IDFONCTION = model.IDFONCTION, IMAGEPE = model.IMAGEPE, STATUT = model.STATUT };
+                        if (resulte.Succeeded) {
+
+                            await SignInAsync(user, isPersistent: false);
+                            bd.collaborateurpe.Add(colpe);
+                            bd.SaveChanges();
+                            return RedirectToAction("Index");
+
+                        }
+                    }
+
                 }
+                 else if (!ModelState.IsValid)
+                 {
+                     ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION");
+                     return View();
+                 }
+            
+               
                 return View();
             }
             catch (Exception ex)
             {
+                ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION");
                 string tst = ex.Message;
                 return View();
             }
-
+           
+            
         }
 
         // GET: CollaborateurPE/Edit/5
@@ -92,7 +164,7 @@ namespace ProjetFinalEval.Controllers
 
         // POST: CollaborateurPE/Edit/5
         [HttpPost]
-        public ActionResult Edit(collaborateurpe col)
+        public ActionResult Edit(collaborateurpe col,aspnetusers ass)
         {
             ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION");
             try
@@ -100,6 +172,8 @@ namespace ProjetFinalEval.Controllers
                 if (ModelState.IsValid)
                 {
                     bd.Entry(col).State = System.Data.Entity.EntityState.Modified;
+
+                    bd.Entry(ass.Email).State = System.Data.Entity.EntityState.Modified;
                     bd.SaveChanges();
                     return RedirectToAction("Index");
 

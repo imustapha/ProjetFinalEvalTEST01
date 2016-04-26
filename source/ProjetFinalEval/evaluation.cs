@@ -22,8 +22,8 @@ namespace ProjetFinalEval
         public string DATENEXTEVALUATION { get; set; }
         public string APPRECIATION { get; set; }
     
-        public virtual collaborateurpe collaborateurpe { get; set; }
         public virtual critere critere { get; set; }
+        public virtual collaborateurpe collaborateurpe { get; set; }
         public virtual collaborateurtitulaire collaborateurtitulaire { get; set; }
     }
 }
