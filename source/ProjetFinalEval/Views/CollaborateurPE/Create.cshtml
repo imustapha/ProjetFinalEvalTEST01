@@ -1,0 +1,174 @@
+﻿@model ProjetFinalEval.collaborateurpe
+@{
+    ViewBag.Title = "Ajouter un nouveau collaborateur en période d'essai";
+    Layout = "~/Views/Shared/_LayoutStablePage1.cshtml";
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="~/Home/Accueil">Accueil</a>
+            <i class="fa fa-angle-right"></i>
+            <a href="~/CollaborateurPE/Index">List des COllPE</a>
+            <i class="fa fa-angle-right"></i>
+            <a href="~/CollaborateurPE/Create">Ajouter nouveau CollPE</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+
+    </ul>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN VALIDATION STATES-->
+        <div class="portlet box green">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-gift"></i>Collaborateur en période d'essai
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+
+
+                    <a href="javascript:;" class="reload">
+                    </a>
+                    <a href="javascript:;" class="remove">
+                    </a>
+                </div>
+            </div>
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form action="Create" method="Post" id="form_sample_3" class="form-horizontal" enctype="multipart/form-data">
+                    <div class="form-body">
+
+                        <div class="alert alert-danger display-hide">
+                            <button class="close" data-close="alert"></button>
+                            Vous avez des champs qu'ils sont vide.
+                        </div>
+                        <div class="alert alert-success display-hide">
+                            <button class="close" data-close="alert"></button>
+                            Ajout de collaborateur réussi!
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                Nom <span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" name="NOMPE" data-required="1" class="form-control" required="required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                Prenom <span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    <input type="text" name="PRENOMPE" data-required="1" class="form-control" required="required" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                Email <span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                    <div class="input-icon right">
+                                        <i class="fa"></i>
+                                        <input type="email" name="EMAILPE" class="form-control" placeholder="Email Address" required="required">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                Image<span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-4">
+                                <div class="input-icon right">
+                                    <i class="fa"></i>
+                                    @Html.TextBoxFor(Model => Model.File, new { type = "file" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                Fonction <span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(M => M.IDFONCTION, ViewBag.IDFONCTION as SelectList, "Sélectionner une fonction", htmlAttributes: new { @Class = "form-control", required = "required" })
+
+
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">
+                                Statut <span class="required">
+                                    *
+                                </span>
+                            </label>
+                            <div class="col-md-4">
+                                <div class="radio-list" data-error-container="#form_2_membership_error">
+                                    <label>
+                                        <input type="radio" name="STATUT" value="XXX" />
+                                        xxx
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="STATUT" value="YYY" />
+                                        yyy
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="STATUT" value="ZZZ" />
+                                        zzz
+                                    </label>
+                                </div>
+                                <div id="form_2_membership_error">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn green">Ajouter</button>
+                                <button type="reset" class="btn red">Annuler</button>
+                                <a href="@Url.Action("Index")" class="btn default">Retour</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!-- END FORM-->
+            </div>
+            <!-- END VALIDATION STATES-->
+        </div>
+    </div>
+</div>
+

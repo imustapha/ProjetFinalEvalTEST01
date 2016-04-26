@@ -1,0 +1,158 @@
+﻿@model ProjetFinalEval.collaborateurtitulaire
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutStablePage1.cshtml";
+}
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="~/Home/Accueil">Acceuil</a>
+            <i class="fa fa-angle-right"></i>
+            <a href="~/ConllaborateurTitulaire/Index">Liste des Collaborateur Titulaires</a>
+            <i class="fa fa-angle-right"></i>
+            <a href="~/CollaborateurTitulaire/Edit">Edit</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+
+    </ul>
+
+</div>
+
+
+<div class="row margin-top-20">
+    <div class="col-md-12">
+        <!-- BEGIN PROFILE SIDEBAR -->
+        <div class="profile-sidebar">
+            <!-- PORTLET MAIN -->
+            <div class="portlet light profile-sidebar-portlet">
+                <!-- SIDEBAR USERPIC -->
+                <div class="profile-userpic">
+                    <img src="data:image/png;base64,@Convert.ToBase64String(Model.IMAGE, 0,Model.IMAGE.Length)" class="img-responsive" />
+                </div>
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+
+                        @Html.DisplayFor(model => model.NOM)
+                        @Html.DisplayFor(model => model.PRENOM)
+
+                    </div>
+                    <div class="profile-usertitle-job">
+                        @Html.DisplayFor(model => model.fonction.NOMFONCTION)
+                    </div>
+                </div>
+                <!-- END SIDEBAR USER TITLE -->
+                <!-- SIDEBAR BUTTONS -->
+                <div class="profile-userbuttons">
+
+                    @Html.ActionLink("Edit", "Edit", "CollaborateurTitulaire", new { id = Model.IDCOLLABORATEURTITULAIRE }, new { @class = "btn btn-circle green-haze btn-sm" })
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-circle btn-danger btn-sm" })
+
+                </div>
+                <!-- END SIDEBAR BUTTONS -->
+                <!-- SIDEBAR MENU -->
+                <div class="profile-usermenu">
+
+                </div>
+                <!-- END MENU -->
+            </div>
+            <!-- END PORTLET MAIN -->
+            <!-- PORTLET MAIN -->
+            <!-- END STAT -->
+        </div>
+        <!-- END PORTLET MAIN -->
+        <!-- END BEGIN PROFILE SIDEBAR -->
+        <!-- BEGIN PROFILE CONTENT -->
+
+
+        <div class="profile-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="portlet light">
+                        <div class="portlet-title tabbable-line">
+                            <div class="caption caption-md">
+                                <i class="icon-globe theme-font hide"></i>
+                                <span class="caption-subject font-blue-madison bold uppercase">Profile Account</span>
+                            </div>
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#tab_1_1" data-toggle="tab">Personal Info</a>
+                                </li>
+                                <li>
+                                    <a href="#tab_1_2" data-toggle="tab">Change Avatar</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="tab-content">
+                                <!-- PERSONAL INFO TAB -->
+                                <div class="tab-pane active" id="tab_1_1">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-group">
+                                            <h4>collaborateurtitulaire</h4>
+                                            <hr />
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                            @Html.HiddenFor(model => model.IDCOLLABORATEURTITULAIRE)
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.NOM, "Name", htmlAttributes: new { @class = "control-label" })
+                                                <div class="input-icon right">
+                                                    <i class="fa"></i>
+                                                    @Html.EditorFor(model => model.NOM, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.PRENOM, "Prenom", htmlAttributes: new { @class = "control-label" })
+                                                <div class="input-icon right">
+                                                    <i class="fa"></i>
+                                                    @Html.EditorFor(model => model.PRENOM, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.EMAIL, "Email", htmlAttributes: new { @class = "control-label" })
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-envelope"></i>
+                                                    </span>
+                                                    @Html.EditorFor(model => model.EMAIL, new { htmlAttributes = new { @class = "form-control" } })
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.IDFONCTION, "Fonction", htmlAttributes: new { @class = "control-label" })
+                                                @Html.DropDownList("IDFONCTION", null, htmlAttributes: new { @class = "form-control", required = "required" })
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.FLAGEVAL, "Evaluateur", htmlAttributes: new { @class = "control-label" })
+                                                <div class="checkbox">
+                                                    @Html.EditorFor(model => model.FLAGEVAL)
+                                                </div>
+                                            </div>
+                                            <div class="form-actions">
+                                                <div class="row">
+                                                    <div class="col-md-offset-3 col-md-9">
+                                                        <button type="submit" class="btn green">Save</button>
+                                                        <a href="@Url.Action("Index")" class="btn default">Retour</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                        </div>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

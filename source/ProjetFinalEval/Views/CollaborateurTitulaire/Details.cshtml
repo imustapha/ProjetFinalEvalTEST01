@@ -1,0 +1,89 @@
+﻿@model ProjetFinalEval.collaborateurtitulaire
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutStablePage1.cshtml";
+}
+
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="~/Home/Accueil">Acceuil</a>
+            <i class="fa fa-angle-right"></i>
+            <a href="~/ConllaborateurTitulaire/Index">Liste des Collaborateur Titulaires</a>
+            <i class="fa fa-angle-right"></i>
+            <a href="~/CollaborateurTitulaire/Details">Details</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+
+    </ul>
+
+</div>
+
+<div class="col-md-12">
+
+    <!-- BEGIN PROFILE SIDEBAR -->
+    <div class="profile-sidebar">
+        <!-- PORTLET MAIN -->
+        <center>
+            <div class="col-md-12">
+                <div class="portlet light profile-sidebar-portlet">
+                    <!-- SIDEBAR USERPIC -->
+                    <div class="profile-userpic">
+                        <img src="data:image/png;base64,@Convert.ToBase64String(Model.IMAGE, 0,Model.IMAGE.Length)" class="img-responsive" />
+                    </div>
+                    <!-- END SIDEBAR USERPIC -->
+                    <!-- SIDEBAR USER TITLE -->
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+
+                            @Html.DisplayFor(model => model.NOM)
+                            @Html.DisplayFor(model => model.PRENOM)
+
+                        </div>
+                        <div class="profile-usertitle-job">
+                            @Html.DisplayFor(model => model.EMAIL)
+                        </div>
+
+                        <div class="profile-usertitle-job">
+                            @Html.DisplayFor(model => model.fonction.NOMFONCTION)
+                        </div>
+                        <div class="profile-usertitle-job">
+                            @{ ;
+                             if (ViewBag.Evaluateur == true)
+                             {
+                                <label>Evaluateur</label>
+                             }
+                             else
+                             {<label>Non Evaluateur</label> }
+                            }
+
+                        </div>
+                    </div>
+                    <!-- END SIDEBAR USER TITLE -->
+                    <!-- SIDEBAR BUTTONS -->
+                    <div class="profile-userbuttons">
+
+                        @Html.ActionLink("Edit", "Edit", "CollaborateurTitulaire", new { id = Model.IDCOLLABORATEURTITULAIRE }, new { @class = "btn btn-circle green-haze btn-sm" })
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-circle btn-danger btn-sm" })
+
+                    </div>
+                    <!-- END SIDEBAR BUTTONS -->
+                    <!-- SIDEBAR MENU -->
+                    <div class="profile-usermenu">
+
+                    </div>
+                    <!-- END MENU -->
+                </div>
+                <!-- END PORTLET MAIN -->
+                <!-- PORTLET MAIN -->
+                <!-- END STAT -->
+            </div>
+            <!-- END PORTLET MAIN -->
+
+        </center>
+    </div>
+
+</div>

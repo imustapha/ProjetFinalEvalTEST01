@@ -1,0 +1,119 @@
+﻿@model IEnumerable<ProjetFinalEval.collaborateurtitulaire>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutStablePage1.cshtml";
+}
+
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="~/Home/Accueil">Acceuil</a>
+            <i class="fa fa-angle-right"></i>
+            <a href="~/ConllaborateurTitulaire/Index">Liste des Collaborateur Titulaires</a>
+            <i class="fa fa-angle-right"></i>
+
+        </li>
+
+    </ul>
+
+</div>
+
+<div class="col-md-12">
+    <!-- BEGIN EXAMPLE TABLE PORTLET-->
+    <div class="portlet box blue-madison">
+        <div class="portlet-title">
+            <div class="caption">
+                <i class="fa fa-globe"></i>List des collaborateur P.E
+            </div>
+            <div class="tools">
+                <a href="javascript:;" class="collapse">
+                </a>
+
+                <a href="javascript:;" class="reload">
+                </a>
+                <a href="javascript:;" class="remove">
+                </a>
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="table-toolbar">
+                <div class="row">
+                    <div class="col-md-6">
+
+
+                        <div class="clearfix">
+                            <a href="@Url.Action("Create")" id="sample_editable_1_new" class="btn green">Creer <i class="fa fa-plus"></i></a>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <table class="table table-striped table-bordered table-hover" id="sample_1">
+                <thead>
+                    <tr>
+
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Prenom
+                        </th>
+                        <th>
+                            Email
+                        </th>
+
+
+                        <th>
+                            Fonction
+
+                        </th>
+                        <th>
+                            <center> Evaluateur</center>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NOM)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PRENOM)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.aspnetusers.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.fonction.NOMFONCTION)
+                            </td>
+                            <td>
+                                <center>@Html.DisplayFor(modelItem => item.FLAGEVAL)</center>
+                            </td>
+                            <td>
+                                <div class="col-md-offset-1 center clearfix">
+                                    <div class="btn-group btn-group-circle btn-group-solid">
+                                        @Html.ActionLink("Edit", "Edit", "CollaborateurTitulaire", new { id = item.IDCOLLABORATEURTITULAIRE }, new { @class = "btn red" })
+                                        @Html.ActionLink("Details", "Details", "CollaborateurTitulaire", new { id = item.IDCOLLABORATEURTITULAIRE }, new { @class = "btn yellow" })
+                                        @Html.ActionLink("Delete", "Delete", "CollaborateurTitulaire", new { id = item.IDCOLLABORATEURTITULAIRE }, new { @class = "btn green" })
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- END EXAMPLE TABLE PORTLET-->
+</div>
