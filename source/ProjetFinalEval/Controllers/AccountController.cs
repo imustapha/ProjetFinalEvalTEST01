@@ -525,7 +525,7 @@ namespace ProjetFinalEval.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Accueil", "Home");
             }
         }
 

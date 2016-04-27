@@ -13,7 +13,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
-
+////////////////////////////////////
+///////////////////////////
+////////////////////////
 namespace AppGestionEvaluation.Controllers
 {
     public class CollaborateurTitulaireController : Controller

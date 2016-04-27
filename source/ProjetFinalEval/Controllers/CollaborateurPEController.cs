@@ -142,6 +142,7 @@ namespace ProjetFinalEval.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             collaborateurpe col = bd.collaborateurpe.Find(id);
+            aspnetusers ass = bd.aspnetusers.Find(col.IdUser);
             if (col == null)
                 return HttpNotFound();
             return View(col);
@@ -149,16 +150,36 @@ namespace ProjetFinalEval.Controllers
 
         // POST: CollaborateurPE/Edit/5
         [HttpPost]
-        public ActionResult Edit(collaborateurpe col,aspnetusers ass)
+        public ActionResult Edit(collaborateurpe pe)
         {
+            int id=pe.IDCOLLABORATEURPE;
             ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION");
+            collaborateurpe col = bd.collaborateurpe.Find(id);
+            aspnetusers ass = bd.aspnetusers.Find(col.IdUser);
+              col.NOMPE = pe.NOMPE;
+              col.PRENOMPE =pe.PRENOMPE ;
+              col.STATUT = pe.STATUT;
+              col.IDFONCTION = pe.IDFONCTION;
+            
+            if (pe.fonction != null)
+            {
+                col.fonction = pe.fonction;
+            }
+            if (pe.IMAGEPE != null)
+            {
+                col.IMAGEPE = pe.IMAGEPE;
+            }
+            
+
+
             try
             {
                 if (ModelState.IsValid)
                 {
                     bd.Entry(col).State = System.Data.Entity.EntityState.Modified;
-
-                    bd.Entry(ass.Email).State = System.Data.Entity.EntityState.Modified;
+                    
+                    bd.Entry(ass).State = System.Data.Entity.EntityState.Modified;
+                    
                     bd.SaveChanges();
                     return RedirectToAction("Index");
 
@@ -194,17 +215,20 @@ namespace ProjetFinalEval.Controllers
             try
             {
                 collaborateurpe colpe = new collaborateurpe();
+                aspnetusers ass = new aspnetusers();
                 if (ModelState.IsValid)
                 {
                     if (id == null)
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
                     colpe = bd.collaborateurpe.Find(id);
+                    ass = bd.aspnetusers.Find(colpe.IdUser);
                     if (colpe == null)
                         return HttpNotFound();
 
 
                     bd.collaborateurpe.Remove(colpe);
+                    bd.aspnetusers.Remove(ass);
                     bd.SaveChanges();
                     return RedirectToAction("Index");
 
