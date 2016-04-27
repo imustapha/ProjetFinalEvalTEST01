@@ -6,67 +6,66 @@
 }
 
 
-<div class="page-bar">
-    <ul class="page-breadcrumb">
-        <li>
-            <i class="fa fa-home"></i>
-            <a href="~/Home/Accueil">Accueil</a>
-            <i class="fa fa-angle-right"></i>
-            <a href="~/CollaborateurPE/Index">Liste des COllaborateurPE</a>
-            <i class="fa fa-angle-right"></i>
-            <a href="~/CollaborateurPE/Details/@Model.IDCOLLABORATEURPE">Details</a>
+<ul class="page-breadcrumb breadcrumb">
+    <li>
 
-            <i class="fa fa-angle-right"></i>
-        </li>
+        <a href="~/Home/Accueil">Accueil</a>
+        <i class="fa fa-circle"></i>
+        <a href="~/CollaborateurPE/Index">Liste des COllaborateurPE</a>
+        <i class="fa fa-circle"></i>
+        <a href="~/CollaborateurPE/Details/@Model.IDCOLLABORATEURPE">Details</a>
+        <i class="fa fa-circle"></i>
+    </li>
 
-    </ul>
+</ul>
+<div class="row">
+    <div class="col-md-12">
+        <p>
 
-</div>
+            @Html.ActionLink("Retour à la liste", "Index", null, new { @class = "btn btn-circle green-haze btn-sm" })
 
-<p>
+        </p>
+        <div align="right">
+            <div class="center">
+                <div class="col-md-offset-3 col-md-6">
+                    <div class="portlet light profile-sidebar-portlet">
+                        <!-- SIDEBAR USERPIC -->
+                        <div class="profile-userpic">
 
-    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-circle green-haze btn-sm" })
+                            <img src="data:image/png;base64,@Convert.ToBase64String(Model.IMAGEPE, 0,Model.IMAGEPE.Length)" class="img-responsive" />
+                        </div>
+                        <!-- END SIDEBAR USERPIC -->
+                        <!-- SIDEBAR USER TITLE -->
+                        <div class="profile-usertitle">
+                            <div class="profile-usertitle-name">
+                                @Html.DisplayFor(model => model.NOMPE) @Html.DisplayFor(model => model.PRENOMPE)
+                            </div>
+                            <div class="profile-usertitle-job">
+                                @Html.DisplayFor(model => model.aspnetusers.Email)
+                            </div>
+                            <div class="profile-usertitle-job">
+                                @Html.DisplayFor(model => model.STATUT)
+                            </div>
+                            <div class="profile-usertitle-job">
+                                @Html.DisplayFor(model => model.fonction.NOMFONCTION)
+                            </div>
+                        </div>
+                        <!-- END SIDEBAR USER TITLE -->
+                        <!-- SIDEBAR BUTTONS -->
+                        <div class="profile-userbuttons">
 
-</p>
-<div align="right">
-    <div class="center">
-        <div class="col-md-offset-3 col-md-6">
-            <div class="portlet light profile-sidebar-portlet">
-                <!-- SIDEBAR USERPIC -->
-                <div class="profile-userpic">
+                            @Html.ActionLink("Modifier", "Edit", new { id = Model.IDCOLLABORATEURPE }, new { @class = "btn btn-circle btn-danger btn-sm" })
+                        </div>
+                        <!-- END SIDEBAR BUTTONS -->
+                        <!-- SIDEBAR MENU -->
+                        <div class="profile-usermenu">
 
-                    <img src="data:image/png;base64,@Convert.ToBase64String(Model.IMAGEPE, 0,Model.IMAGEPE.Length)" class="img-responsive" />
-                </div>
-                <!-- END SIDEBAR USERPIC -->
-                <!-- SIDEBAR USER TITLE -->
-                <div class="profile-usertitle">
-                    <div class="profile-usertitle-name">
-                        @Html.DisplayFor(model => model.NOMPE) @Html.DisplayFor(model => model.PRENOMPE)
+
+                        </div>
+                        <!-- END MENU -->
                     </div>
-                    <div class="profile-usertitle-job">
-                        @Html.DisplayFor(model => model.aspnetusers.Email)
-                    </div>
-                    <div class="profile-usertitle-job">
-                        @Html.DisplayFor(model => model.STATUT)
-                    </div>
-                    <div class="profile-usertitle-job">
-                        @Html.DisplayFor(model => model.fonction.NOMFONCTION)
-                    </div>
                 </div>
-                <!-- END SIDEBAR USER TITLE -->
-                <!-- SIDEBAR BUTTONS -->
-                <div class="profile-userbuttons">
-
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.IDCOLLABORATEURPE }, new { @class = "btn btn-circle btn-danger btn-sm" })
-                </div>
-                <!-- END SIDEBAR BUTTONS -->
-                <!-- SIDEBAR MENU -->
-                <div class="profile-usermenu">
-
-
-                </div>
-                <!-- END MENU -->
             </div>
         </div>
-    </div>
+</div>
 </div>

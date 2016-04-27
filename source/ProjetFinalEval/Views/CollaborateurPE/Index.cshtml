@@ -5,115 +5,114 @@
     Layout = "~/Views/Shared/_LayoutStablePage1.cshtml";
 }
 
-<div class="page-bar">
-    <ul class="page-breadcrumb">
-        <li>
-            <i class="fa fa-home"></i>
-            <a href="~/Home/Accueil">Accueil</a>
-            <i class="fa fa-angle-right"></i>
-            <a href="~/CollaborateurPE/Index">Liste des collaborateurPE</a>
-            <i class="fa fa-angle-right"></i>
-        </li>
 
-    </ul>
+<ul class="page-breadcrumb breadcrumb">
+    <li>
 
-</div>
+        <a href="~/Home/Accueil">Accueil</a>
+        <i class="fa fa-circle"></i>
+        <a href="~/CollaborateurPE/Index">Liste des collaborateurPE</a>
+        <i class="fa fa-circle"></i>
+    </li>
+
+</ul>
 
 
 
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet box blue-madison">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-globe"></i>List des collaborateur P.E
+                </div>
+                <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
 
-<div class="col-md-12">
-    <!-- BEGIN EXAMPLE TABLE PORTLET-->
-    <div class="portlet box blue-madison">
-        <div class="portlet-title">
-            <div class="caption">
-                <i class="fa fa-globe"></i>List des collaborateur P.E
-            </div>
-            <div class="tools">
-                <a href="javascript:;" class="collapse">
-                </a>
-
-                <a href="javascript:;" class="reload">
-                </a>
-                <a href="javascript:;" class="remove">
-                </a>
-            </div>
-        </div>
-        <div class="portlet-body">
-            <div class="table-toolbar">
-                <div class="row">
-                    <div class="col-md-6">
-
-
-                        <div class="clearfix">
-                            <a href="@Url.Action("Create")" id="sample_editable_1_new" class="btn green">Creer <i class="fa fa-plus"></i></a>
-                        </div>
-
-
-                    </div>
-
+                    <a href="javascript:;" class="reload">
+                    </a>
+                    <a href="javascript:;" class="remove">
+                    </a>
                 </div>
             </div>
-            <table class="table table-striped table-bordered table-hover" id="sample_1">
-                <thead>
-                    <tr>
+            <div class="portlet-body">
+                <div class="table-toolbar">
+                    <div class="row">
+                        <div class="col-md-6">
 
-                        <th>
-                            Nom
-                        </th>
-                        <th>
-                            Prenom
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            Statut
-                        </th>
-                        <th>
-                            Fonction
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
 
+                            <div class="clearfix">
+                                <a href="@Url.Action("Create")" id="sample_editable_1_new" class="btn green">Creer <i class="fa fa-plus"></i></a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <table class="table table-striped table-bordered table-hover" id="sample_1">
+                    <thead>
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.NOMPE)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PRENOMPE)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.aspnetusers.Email)
-                            </td>
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.STATUT)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.fonction.NOMFONCTION)
-                            </td>
-                            <td>
-                                <div class="clearfix">
-                                    <div class="btn-group btn-group-circle btn-group-solid">
-                                        @Html.ActionLink("Modifier", "Edit", new { id = item.IDCOLLABORATEURPE }, new { @class = "btn red" })
-                                        @Html.ActionLink("Details", "Details", new { id = item.IDCOLLABORATEURPE }, new { @class = "btn yellow" })
-                                        @Html.ActionLink("Supprimer", "Delete", new { id = item.IDCOLLABORATEURPE }, new { @class = "btn green" })
-                                    </div>
-                                </div>
-
-                            </td>
+                            <th>
+                                Nom
+                            </th>
+                            <th>
+                                Prenom
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Statut
+                            </th>
+                            <th>
+                                Fonction
+                            </th>
+                            <th></th>
                         </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
 
-                    }
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NOMPE)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PRENOMPE)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.aspnetusers.Email)
+                                </td>
 
-                </tbody>
-            </table>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.STATUT)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.fonction.NOMFONCTION)
+                                </td>
+                                <td>
+                                    <div class="clearfix">
+                                        <div class="btn-group btn-group-circle btn-group-solid">
+                                            @Html.ActionLink("Modifier", "Edit", new { id = item.IDCOLLABORATEURPE }, new { @class = "btn red" })
+                                            @Html.ActionLink("Details", "Details", new { id = item.IDCOLLABORATEURPE }, new { @class = "btn yellow" })
+                                            @Html.ActionLink("Supprimer", "Delete", new { id = item.IDCOLLABORATEURPE }, new { @class = "btn green" })
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
         </div>
+        <!-- END EXAMPLE TABLE PORTLET-->
     </div>
-    <!-- END EXAMPLE TABLE PORTLET-->
 </div>
