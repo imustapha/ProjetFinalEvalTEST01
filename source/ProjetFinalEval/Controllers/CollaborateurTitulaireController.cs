@@ -13,9 +13,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
-////////////////////////////////////
-///////////////////////////
-////////////////////////
+
 namespace AppGestionEvaluation.Controllers
 {
     public class CollaborateurTitulaireController : Controller
@@ -135,12 +133,13 @@ namespace AppGestionEvaluation.Controllers
         }
 
         // GET: Collaborateur/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id,string iduser)
         {
             ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION", bd.collaborateurtitulaire.Find(id).fonction.IDFONCTION);
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             collaborateurtitulaire CollT = bd.collaborateurtitulaire.Find(id);
+            aspnetusers asp = bd.aspnetusers.Find(iduser);
             if (CollT == null)
                 return HttpNotFound();
             return View(CollT);
@@ -148,14 +147,35 @@ namespace AppGestionEvaluation.Controllers
 
         // POST: Collaborateur/Edit/5
         [HttpPost]
-        public ActionResult Edit(collaborateurtitulaire CollT)
+        public ActionResult Edit(int? id,collaborateurtitulaire CollT)
         {
             ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION");
+            collaborateurtitulaire col = bd.collaborateurtitulaire.Find(id);
+            aspnetusers asps = bd.aspnetusers.Single(m=>m.Id==CollT.IdUser);
+
+
+
+            col.NOM = CollT.NOM;
+            col.PRENOM = CollT.PRENOM;
+            col.FLAGEVAL = CollT.FLAGEVAL;
+            col.IDFONCTION = CollT.IDFONCTION;
+            
+
+            if (CollT.fonction != null)
+            {
+                col.fonction = CollT.fonction;
+            }
+            if (CollT.IMAGE != null)
+            {
+                col.IMAGE = CollT.IMAGE;
+            }
             try
             {
+
                 if (ModelState.IsValid)
                 {
                     bd.Entry(CollT).State = System.Data.Entity.EntityState.Modified;
+                    bd.Entry(asps).State = System.Data.Entity.EntityState.Modified;
                     bd.SaveChanges();
                     return RedirectToAction("Index");
                 }
@@ -184,19 +204,22 @@ namespace AppGestionEvaluation.Controllers
 
         // POST: Collaborateur/Delete/5
         [HttpPost]
-        public ActionResult Delete(int? id, collaborateurtitulaire CollTt)
+        public ActionResult Delete(int? id, collaborateurtitulaire CollTt,aspnetusers asp)
         {
             try
             {
                 collaborateurtitulaire CollT = new collaborateurtitulaire();
+                aspnetusers asps = new aspnetusers();
                 if (ModelState.IsValid)
                 {
                     if (id == null)
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                     CollT = bd.collaborateurtitulaire.Find(id);
-                    if (CollT == null)
+                    asps = bd.aspnetusers.Find(CollTt.IdUser);
+                    if (CollT == null && asps==null)
                         return HttpNotFound();
                     bd.collaborateurtitulaire.Remove(CollT);
+                    bd.aspnetusers.Remove(asps);
                     bd.SaveChanges();
                     return RedirectToAction("Index");
                 }
