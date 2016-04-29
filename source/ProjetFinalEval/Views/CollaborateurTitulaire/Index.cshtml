@@ -25,7 +25,7 @@
     <div class="portlet box blue-madison">
         <div class="portlet-title">
             <div class="caption">
-                <i class="fa fa-globe"></i>List des collaborateur P.E
+                <i class="fa fa-globe"></i>List des collaborateur Titulaire
             </div>
             <div class="tools">
                 <a href="javascript:;" class="collapse">
@@ -57,7 +57,7 @@
                     <tr>
 
                         <th>
-                            Name
+                            Nom
                         </th>
                         <th>
                             Prenom
@@ -100,9 +100,9 @@
                             <td>
                                 <div class="col-md-offset-1 center clearfix">
                                     <div class="btn-group btn-group-circle btn-group-solid">
-                                        @Html.ActionLink("Edit", "Edit", "CollaborateurTitulaire", new { id = item.IDCOLLABORATEURTITULAIRE }, new { @class = "btn red" })
+                                        @Html.ActionLink("Modifier", "Edit", "CollaborateurTitulaire", new { id = item.IDCOLLABORATEURTITULAIRE }, new { @class = "btn red" })
                                         @Html.ActionLink("Details", "Details", "CollaborateurTitulaire", new { id = item.IDCOLLABORATEURTITULAIRE }, new { @class = "btn yellow" })
-                                        @Html.ActionLink("Delete", "Delete", "CollaborateurTitulaire", new { id = item.IDCOLLABORATEURTITULAIRE }, new { @class = "btn green" })
+                                        @Html.ActionLink("Supprimer", "Delete", "CollaborateurTitulaire", new { id = item.IDCOLLABORATEURTITULAIRE }, new { @class = "btn green" })
                                     </div>
                                 </div>
 

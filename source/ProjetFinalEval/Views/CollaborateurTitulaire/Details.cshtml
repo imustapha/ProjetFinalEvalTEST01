@@ -44,7 +44,7 @@
 
                         </div>
                         <div class="profile-usertitle-job">
-                            @Html.DisplayFor(model => model.EMAIL)
+                            @Html.DisplayFor(model => model.aspnetusers.Email)
                         </div>
 
                         <div class="profile-usertitle-job">
@@ -54,10 +54,10 @@
                             @{ ;
                              if (ViewBag.Evaluateur == true)
                              {
-                                <label>Evaluateur</label>
+                                <label>Collaborateur Evaluateur</label>
                              }
                              else
-                             {<label>Non Evaluateur</label> }
+                             {<label>Collaborateur Non Evaluateur</label> }
                             }
 
                         </div>
@@ -66,8 +66,8 @@
                     <!-- SIDEBAR BUTTONS -->
                     <div class="profile-userbuttons">
 
-                        @Html.ActionLink("Edit", "Edit", "CollaborateurTitulaire", new { id = Model.IDCOLLABORATEURTITULAIRE }, new { @class = "btn btn-circle green-haze btn-sm" })
-                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-circle btn-danger btn-sm" })
+                        @Html.ActionLink("Modifier", "Edit", "CollaborateurTitulaire", new { id = Model.IDCOLLABORATEURTITULAIRE }, new { @class = "btn btn-circle green-haze btn-sm" })
+                        @Html.ActionLink("Retour a la List", "Index", null, new { @class = "btn btn-circle btn-danger btn-sm" })
 
                     </div>
                     <!-- END SIDEBAR BUTTONS -->

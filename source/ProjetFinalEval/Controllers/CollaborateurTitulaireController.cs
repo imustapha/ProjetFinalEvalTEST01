@@ -13,7 +13,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Owin;
-//fares test
+
 namespace AppGestionEvaluation.Controllers
 {
     public class CollaborateurTitulaireController : Controller
@@ -204,6 +204,7 @@ namespace AppGestionEvaluation.Controllers
 
         // POST: Collaborateur/Delete/5
         [HttpPost]
+        [Authorize ]
         public ActionResult Delete(int? id, collaborateurtitulaire CollTt,aspnetusers asp)
         {
             try
