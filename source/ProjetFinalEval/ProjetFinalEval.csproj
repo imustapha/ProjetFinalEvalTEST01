@@ -210,6 +210,7 @@
     <Compile Include="Controllers\CollaborateurPEController.cs" />
     <Compile Include="Controllers\CollaborateurTitulaireController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProjetController.cs" />
     <Compile Include="critere.cs">
       <DependentUpon>bd_evaluation.tt</DependentUpon>
     </Compile>
@@ -4715,6 +4716,8 @@
     <Content Include="Views\CollaborateurTitulaire\Create.cshtml" />
     <Content Include="Views\CollaborateurTitulaire\Edit.cshtml" />
     <Content Include="Views\CollaborateurTitulaire\Delete.cshtml" />
+    <Content Include="Views\Projet\Index.cshtml" />
+    <Content Include="Views\Projet\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,7 +12,6 @@ namespace ProjetFinalEval
     using System;
     using System.Collections.Generic;
     using System.Web;
-    
     public partial class collaborateurtitulaire
     {
         public collaborateurtitulaire()
