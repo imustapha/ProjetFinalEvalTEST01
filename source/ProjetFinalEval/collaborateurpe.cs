@@ -12,11 +12,13 @@ namespace ProjetFinalEval
     using System;
     using System.Collections.Generic;
     using System.Web;
+    
     public partial class collaborateurpe
     {
         public collaborateurpe()
         {
             this.evaluation = new HashSet<evaluation>();
+            this.projet = new HashSet<projet>();
         }
     
         public int IDCOLLABORATEURPE { get; set; }
@@ -27,8 +29,10 @@ namespace ProjetFinalEval
         public string STATUT { get; set; }
         public string IdUser { get; set; }
         public HttpPostedFileBase File { get; set; }
+    
         public virtual aspnetusers aspnetusers { get; set; }
         public virtual ICollection<evaluation> evaluation { get; set; }
         public virtual fonction fonction { get; set; }
+        public virtual ICollection<projet> projet { get; set; }
     }
 }

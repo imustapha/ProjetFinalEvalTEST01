@@ -1,0 +1,100 @@
+﻿@model ProjetFinalEval.freelance
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutStablePage1.cshtml";
+}
+
+<h2>Delete</h2>
+
+
+
+
+<div class="col-md-8">
+    <!-- BEGIN VALIDATION STATES-->
+    <div class="portlet light">
+        <div class="portlet-title tabbable-line">
+            <div class="caption caption-md">
+                <i class="icon-globe theme-font hide"></i>
+                <span class="caption-subject font-blue-madison bold uppercase">Profile Collaborateur Titulaire</span>
+            </div>
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#tab_1_1" data-toggle="tab">Personal Info</a>
+                </li>
+            </ul>
+        </div>
+        <div class="portlet-body form">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.IDFREELANCE)
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NOMFL, "Nom", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-4">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                @Html.EditorFor(model => model.NOMFL, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PRENOMFL, "Prenom", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-4">
+                            <div class="input-icon right">
+                                <i class="fa"></i>
+                                @Html.EditorFor(model => model.PRENOMFL, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        @Html.LabelFor(model => model.EMAILFL, "Email", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-envelope"></i>
+                                </span>
+                                @Html.EditorFor(model => model.EMAILFL, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TELEPHONE, "Telephone", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.TELEPHONE, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-actions no-color">
+                    @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div>
+                        <input type="submit" value="Delete" class="btn green" />
+                        @Html.ActionLink("Back to List", "Index", null, htmlAttributes: new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+

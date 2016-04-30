@@ -5,37 +5,38 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a2a3d9e083a24f84b967ec645a20ff6c" Name="Diagram1" ZoomLevel="64">
-        <EntityTypeShape EntityType="bd_evaluationModel.aspnetroles" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="bd_evaluationModel.aspnetuserclaims" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="bd_evaluationModel.aspnetuserlogins" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
-        <EntityTypeShape EntityType="bd_evaluationModel.aspnetusers" Width="1.5" PointX="0.75" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="bd_evaluationModel.client" Width="1.5" PointX="6" PointY="2.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="bd_evaluationModel.critere" Width="1.5" PointX="6" PointY="16.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bd_evaluationModel.evaluation" Width="1.5" PointX="8.25" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="bd_evaluationModel.famillecritere" Width="1.5" PointX="3.75" PointY="17" IsExpanded="true" />
-        <EntityTypeShape EntityType="bd_evaluationModel.fonction" Width="1.5" PointX="3.75" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="bd_evaluationModel.freelance" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="bd_evaluationModel.projet" Width="1.5" PointX="8.25" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="bd_evaluationModel.tache" Width="1.5" PointX="10.5" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="bd_evaluationModel.variable" Width="1.5" PointX="8.25" PointY="14" IsExpanded="true" />
-        <AssociationConnector Association="bd_evaluationModel.ApplicationUser_Claims" ManuallyRouted="false" />
-        <AssociationConnector Association="bd_evaluationModel.ApplicationUser_Logins" ManuallyRouted="false" />
-        <AssociationConnector Association="bd_evaluationModel.FK_APPARTENIR" ManuallyRouted="false" />
-        <AssociationConnector Association="bd_evaluationModel.FK_CARACTERISER" ManuallyRouted="false" />
-        <AssociationConnector Association="bd_evaluationModel.FK_SELECTIONNER" ManuallyRouted="false" />
-        <AssociationConnector Association="bd_evaluationModel.FK_CONTIENT" ManuallyRouted="false" />
-        <AssociationConnector Association="bd_evaluationModel.aspnetuserroles" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="bd_evaluationModel.collaborateurpe" Width="1.5" PointX="5.75" PointY="7.125" />
-        <EntityTypeShape EntityType="bd_evaluationModel.collaborateurtitulaire" Width="1.5" PointX="6" PointY="12.25" />
-        <AssociationConnector Association="bd_evaluationModel.FK_user" />
-        <AssociationConnector Association="bd_evaluationModel.FK_UserPe" />
+        <EntityTypeShape EntityType="bd_evaluationModel.aspnetroles" Width="1.5" PointX="3" PointY="24.125" />
+        <EntityTypeShape EntityType="bd_evaluationModel.aspnetuserclaims" Width="1.5" PointX="3" PointY="10.625" />
+        <EntityTypeShape EntityType="bd_evaluationModel.aspnetuserlogins" Width="1.5" PointX="3" PointY="21.625" />
+        <EntityTypeShape EntityType="bd_evaluationModel.aspnetusers" Width="1.5" PointX="0.75" PointY="12" />
+        <EntityTypeShape EntityType="bd_evaluationModel.client" Width="1.5" PointX="6" PointY="16.75" />
+        <EntityTypeShape EntityType="bd_evaluationModel.collaborateurpe" Width="1.5" PointX="3" PointY="13.5" />
+        <EntityTypeShape EntityType="bd_evaluationModel.collaborateurtitulaire" Width="1.5" PointX="6" PointY="12.375" />
+        <EntityTypeShape EntityType="bd_evaluationModel.critere" Width="1.5" PointX="13.5" PointY="16.5" />
+        <EntityTypeShape EntityType="bd_evaluationModel.evaluation" Width="1.5" PointX="11.25" PointY="13.125" />
+        <EntityTypeShape EntityType="bd_evaluationModel.famillecritere" Width="1.5" PointX="11.25" PointY="16.75" />
+        <EntityTypeShape EntityType="bd_evaluationModel.fonction" Width="1.5" PointX="3.75" PointY="18.25" />
+        <EntityTypeShape EntityType="bd_evaluationModel.freelance" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="bd_evaluationModel.projet" Width="1.5" PointX="8.25" PointY="13" />
+        <EntityTypeShape EntityType="bd_evaluationModel.tache" Width="1.5" PointX="13.5" PointY="13" />
+        <EntityTypeShape EntityType="bd_evaluationModel.variable" Width="1.5" PointX="8.25" PointY="20.5" />
+        <AssociationConnector Association="bd_evaluationModel.ApplicationUser_Claims" />
+        <AssociationConnector Association="bd_evaluationModel.ApplicationUser_Logins" />
+        <AssociationConnector Association="bd_evaluationModel.fk_IdUser" />
+        <AssociationConnector Association="bd_evaluationModel.fk_IdUserPe" />
+        <AssociationConnector Association="bd_evaluationModel.FK_APPARTENIR" />
         <AssociationConnector Association="bd_evaluationModel.FK_EVALUER" />
-        <AssociationConnector Association="bd_evaluationModel.FK_OBTENIR" />
-        <AssociationConnector Association="bd_evaluationModel.FK_ADMINISTRER" />
+        <AssociationConnector Association="bd_evaluationModel.FK_OCCUPER" />
         <AssociationConnector Association="bd_evaluationModel.FK_AVOIR" />
         <AssociationConnector Association="bd_evaluationModel.FK_EXAMINER" />
         <AssociationConnector Association="bd_evaluationModel.FK_MANIER" />
         <AssociationConnector Association="bd_evaluationModel.FK_POSSEDER" />
+        <AssociationConnector Association="bd_evaluationModel.FK_SELECTIONNER" />
+        <AssociationConnector Association="bd_evaluationModel.FK_CONTIENT" />
+        <AssociationConnector Association="bd_evaluationModel.administrer" />
+        <AssociationConnector Association="bd_evaluationModel.affecter" />
+        <AssociationConnector Association="bd_evaluationModel.aspnetuserroles" />
+        <AssociationConnector Association="bd_evaluationModel.caracteriser" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

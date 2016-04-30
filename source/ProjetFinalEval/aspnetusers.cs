@@ -18,9 +18,9 @@ namespace ProjetFinalEval
         {
             this.aspnetuserclaims = new HashSet<aspnetuserclaims>();
             this.aspnetuserlogins = new HashSet<aspnetuserlogins>();
-            this.aspnetroles = new HashSet<aspnetroles>();
             this.collaborateurtitulaire = new HashSet<collaborateurtitulaire>();
             this.collaborateurpe = new HashSet<collaborateurpe>();
+            this.aspnetroles = new HashSet<aspnetroles>();
         }
     
         public string Id { get; set; }
@@ -38,8 +38,8 @@ namespace ProjetFinalEval
     
         public virtual ICollection<aspnetuserclaims> aspnetuserclaims { get; set; }
         public virtual ICollection<aspnetuserlogins> aspnetuserlogins { get; set; }
-        public virtual ICollection<aspnetroles> aspnetroles { get; set; }
         public virtual ICollection<collaborateurtitulaire> collaborateurtitulaire { get; set; }
         public virtual ICollection<collaborateurpe> collaborateurpe { get; set; }
+        public virtual ICollection<aspnetroles> aspnetroles { get; set; }
     }
 }

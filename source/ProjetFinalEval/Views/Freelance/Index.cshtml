@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ProjetFinalEval.collaborateurtitulaire>
+﻿@model IEnumerable<ProjetFinalEval.freelance>
 
 @{
     ViewBag.Title = "Index";
@@ -11,7 +11,7 @@
             <i class="fa fa-home"></i>
             <a href="~/Home/Accueil">Acceuil</a>
             <i class="fa fa-angle-right"></i>
-            <a href="~/ConllaborateurTitulaire/Index">Liste des Collaborateur Titulaires</a>
+            <a href="~/Freelance/Index">Liste des Employer Freelance</a>
             <i class="fa fa-angle-right"></i>
 
         </li>
@@ -19,7 +19,6 @@
     </ul>
 
 </div>
-
 <div class="col-md-12">
     <!-- BEGIN EXAMPLE TABLE PORTLET-->
     <div class="portlet box blue-madison">
@@ -52,27 +51,21 @@
 
                 </div>
             </div>
-            <table class="table table-striped table-bordered table-hover" id="sample_1">
+            <table class="table table-striped table-bordered table-hover" id="sample_2">
                 <thead>
                     <tr>
-
+                        <th></th>
                         <th>
                             Nom
                         </th>
                         <th>
-                            Prenom
+                            PRENOM
                         </th>
                         <th>
-                            Email
-                        </th>
-
-
-                        <th>
-                            Fonction
-
+                            EMAIL
                         </th>
                         <th>
-                            <center> Evaluateur</center>
+                            TELEPHONE
                         </th>
                         <th></th>
                     </tr>
@@ -82,28 +75,25 @@
                     {
 
                         <tr>
+                            <td></td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.NOM)
+                                @Html.DisplayFor(modelItem => item.NOMFL)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.PRENOM)
+                                @Html.DisplayFor(modelItem => item.PRENOMFL)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.aspnetusers.Email)
+                                @Html.DisplayFor(modelItem => item.EMAILFL)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.fonction.NOMFONCTION)
-                            </td>
-                            <td>
-
-                                <center>@Html.DisplayFor(modelItem => item.FLAGEVAL )</center>
+                                @Html.DisplayFor(modelItem => item.TELEPHONE)
                             </td>
                             <td>
                                 <div class=" clearfix">
                                     <div class="btn-group btn-group-circle btn-group-solid">
-                                        @Html.ActionLink("Modifier", "Edit", "CollaborateurTitulaire", new { id = item.IDCOLLABORATEURTITULAIRE }, new { @class = "btn red" })
-                                        @Html.ActionLink("Details", "Details", "CollaborateurTitulaire", new { id = item.IDCOLLABORATEURTITULAIRE }, new { @class = "btn yellow" })
-                                        @Html.ActionLink("Supprimer", "Delete", "CollaborateurTitulaire", new { id = item.IDCOLLABORATEURTITULAIRE }, new { @class = "btn green" })
+                                        @Html.ActionLink("Modifier", "Edit", new { id = item.IDFREELANCE }, new { @class = "btn red" })
+                                        @Html.ActionLink("Details", "Details", new { id = item.IDFREELANCE }, new { @class = "btn yellow" })
+                                        @Html.ActionLink("Supprimer", "Delete", new { id = item.IDFREELANCE }, new { @class = "btn green" })
                                     </div>
                                 </div>
 
@@ -118,3 +108,6 @@
     </div>
     <!-- END EXAMPLE TABLE PORTLET-->
 </div>
+
+
+

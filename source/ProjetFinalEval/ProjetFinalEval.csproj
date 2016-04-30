@@ -209,6 +209,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CollaborateurPEController.cs" />
     <Compile Include="Controllers\CollaborateurTitulaireController.cs" />
+    <Compile Include="Controllers\FreelanceController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjetController.cs" />
     <Compile Include="critere.cs">
@@ -4718,6 +4719,11 @@
     <Content Include="Views\CollaborateurTitulaire\Delete.cshtml" />
     <Content Include="Views\Projet\Index.cshtml" />
     <Content Include="Views\Projet\Create.cshtml" />
+    <Content Include="Views\Freelance\Index.cshtml" />
+    <Content Include="Views\Freelance\Create.cshtml" />
+    <Content Include="Views\Freelance\Details.cshtml" />
+    <Content Include="Views\Freelance\Edit.cshtml" />
+    <Content Include="Views\Freelance\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

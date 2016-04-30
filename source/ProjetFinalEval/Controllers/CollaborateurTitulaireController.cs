@@ -133,13 +133,13 @@ namespace AppGestionEvaluation.Controllers
         }
 
         // GET: Collaborateur/Edit/5
-        public ActionResult Edit(int? id,string iduser)
+        public ActionResult Edit(int? id)
         {
             ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION", bd.collaborateurtitulaire.Find(id).fonction.IDFONCTION);
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             collaborateurtitulaire CollT = bd.collaborateurtitulaire.Find(id);
-            aspnetusers asp = bd.aspnetusers.Find(iduser);
+            aspnetusers asp = bd.aspnetusers.Find(CollT.IdUser);
             if (CollT == null)
                 return HttpNotFound();
             return View(CollT);
@@ -151,7 +151,7 @@ namespace AppGestionEvaluation.Controllers
         {
             ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION");
             collaborateurtitulaire col = bd.collaborateurtitulaire.Find(id);
-            aspnetusers asps = bd.aspnetusers.Single(m=>m.Id==CollT.IdUser);
+
 
 
 
@@ -174,8 +174,8 @@ namespace AppGestionEvaluation.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    bd.Entry(CollT).State = System.Data.Entity.EntityState.Modified;
-                    bd.Entry(asps).State = System.Data.Entity.EntityState.Modified;
+                    bd.Entry(col).State = System.Data.Entity.EntityState.Modified;
+
                     bd.SaveChanges();
                     return RedirectToAction("Index");
                 }
@@ -183,7 +183,7 @@ namespace AppGestionEvaluation.Controllers
             }
             catch
             {
-                return View();
+                return View("Error");
             }
         }
 
@@ -204,7 +204,6 @@ namespace AppGestionEvaluation.Controllers
 
         // POST: Collaborateur/Delete/5
         [HttpPost]
-        [Authorize ]
         public ActionResult Delete(int? id, collaborateurtitulaire CollTt,aspnetusers asp)
         {
             try
