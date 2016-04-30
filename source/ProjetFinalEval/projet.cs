@@ -17,19 +17,21 @@ namespace ProjetFinalEval
         public projet()
         {
             this.tache = new HashSet<tache>();
+            this.collaborateurtitulaire = new HashSet<collaborateurtitulaire>();
+            this.collaborateurpe = new HashSet<collaborateurpe>();
         }
     
         public int IDPROJET { get; set; }
-        public int IDCOLLABORATEURTITULAIRE { get; set; }
         public int IDCLIENT { get; set; }
         public string NOMPROJET { get; set; }
         public Nullable<System.DateTime> DATEDEBUT { get; set; }
         public Nullable<System.DateTime> DATEFIN { get; set; }
-        public string TYPE { get; set; }
+        public Nullable<int> TYPE { get; set; }
         public bool FLAGTYPE { get; set; }
     
         public virtual client client { get; set; }
         public virtual ICollection<tache> tache { get; set; }
-        public virtual collaborateurtitulaire collaborateurtitulaire { get; set; }
+        public virtual ICollection<collaborateurtitulaire> collaborateurtitulaire { get; set; }
+        public virtual ICollection<collaborateurpe> collaborateurpe { get; set; }
     }
 }

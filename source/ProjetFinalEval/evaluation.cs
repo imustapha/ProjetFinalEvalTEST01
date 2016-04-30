@@ -14,16 +14,20 @@ namespace ProjetFinalEval
     
     public partial class evaluation
     {
+        public evaluation()
+        {
+            this.critere = new HashSet<critere>();
+        }
+    
         public int IDEVALUATION { get; set; }
-        public int IDCRITERE { get; set; }
         public int IDCOLLABORATEURTITULAIRE { get; set; }
         public int IDCOLLABORATEURPE { get; set; }
         public string DATEEVALUATION { get; set; }
         public string DATENEXTEVALUATION { get; set; }
         public string APPRECIATION { get; set; }
     
-        public virtual critere critere { get; set; }
         public virtual collaborateurpe collaborateurpe { get; set; }
         public virtual collaborateurtitulaire collaborateurtitulaire { get; set; }
+        public virtual ICollection<critere> critere { get; set; }
     }
 }

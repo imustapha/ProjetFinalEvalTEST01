@@ -74,7 +74,7 @@ namespace AppGestionEvaluation.Controllers
 
         // POST: Collaborateur/Create
         [HttpPost]
-        public async Task<ActionResult> Create( RegisterViewModel model)
+        public async Task<ActionResult> Create(RegisterViewModel model)
         {
 
             try
@@ -96,11 +96,12 @@ namespace AppGestionEvaluation.Controllers
 
                 if (ModelState.IsValid)
                 {
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-                var resulte = await UserManager.CreateAsync(user, model.Password);
+                    var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+                    var resulte = await UserManager.CreateAsync(user, model.Password);
 
-                var userToInsert =bd.aspnetusers.Where(i=>i.UserName==user.UserName).FirstOrDefault(); 
-                    if(userToInsert != null){
+                    var userToInsert = bd.aspnetusers.Where(i => i.UserName == user.UserName).FirstOrDefault();
+                    if (userToInsert != null)
+                    {
 
                         var CollT = new collaborateurtitulaire() { IdUser = userToInsert.Id, NOM = model.NOM, PRENOM = model.PRENOM, IDFONCTION = model.IDFONCTION, IMAGE = model.IMAGE, FLAGEVAL = model.FLAGEVAL };
                         if (resulte.Succeeded)
@@ -113,14 +114,14 @@ namespace AppGestionEvaluation.Controllers
 
                         }
                     }
-                 
-               } 
+
+                }
                 else if (!ModelState.IsValid)
                 {
                     ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION");
                     return View();
                 }
-            
+
             }
             catch (Exception ex)
             {
@@ -133,7 +134,7 @@ namespace AppGestionEvaluation.Controllers
         }
 
         // GET: Collaborateur/Edit/5
-        public ActionResult Edit(int? id,string iduser)
+        public ActionResult Edit(int? id, string iduser)
         {
             ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION", bd.collaborateurtitulaire.Find(id).fonction.IDFONCTION);
             if (id == null)
@@ -147,11 +148,11 @@ namespace AppGestionEvaluation.Controllers
 
         // POST: Collaborateur/Edit/5
         [HttpPost]
-        public ActionResult Edit(int? id,collaborateurtitulaire CollT)
+        public ActionResult Edit(int? id, collaborateurtitulaire CollT)
         {
             ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION");
             collaborateurtitulaire col = bd.collaborateurtitulaire.Find(id);
-            aspnetusers asps = bd.aspnetusers.Single(m=>m.Id==CollT.IdUser);
+            aspnetusers asps = bd.aspnetusers.Single(m => m.Id == CollT.IdUser);
 
 
 
@@ -159,7 +160,7 @@ namespace AppGestionEvaluation.Controllers
             col.PRENOM = CollT.PRENOM;
             col.FLAGEVAL = CollT.FLAGEVAL;
             col.IDFONCTION = CollT.IDFONCTION;
-            
+
 
             if (CollT.fonction != null)
             {
@@ -204,8 +205,8 @@ namespace AppGestionEvaluation.Controllers
 
         // POST: Collaborateur/Delete/5
         [HttpPost]
-        [Authorize ]
-        public ActionResult Delete(int? id, collaborateurtitulaire CollTt,aspnetusers asp)
+        [Authorize]
+        public ActionResult Delete(int? id, collaborateurtitulaire CollTt, aspnetusers asp)
         {
             try
             {
@@ -217,7 +218,7 @@ namespace AppGestionEvaluation.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                     CollT = bd.collaborateurtitulaire.Find(id);
                     asps = bd.aspnetusers.Find(CollTt.IdUser);
-                    if (CollT == null && asps==null)
+                    if (CollT == null && asps == null)
                         return HttpNotFound();
                     bd.collaborateurtitulaire.Remove(CollT);
                     bd.aspnetusers.Remove(asps);

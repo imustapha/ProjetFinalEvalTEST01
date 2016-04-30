@@ -8,7 +8,7 @@ namespace ProjetFinalEval.Controllers
 {
     public class HomeController : Controller
     {
-     static   string ConnectionString = "database=bd_evaluation;server=localhost;uid=root";
+        static string ConnectionString = "database=bd_evaluation;server=localhost;uid=root";
         MySqlConnection Connection = new MySqlConnection(ConnectionString);
         public ActionResult Accueil()
         {
@@ -23,12 +23,12 @@ namespace ProjetFinalEval.Controllers
                 s1 = dr[0].ToString();
                 s2 = dr[1].ToString();
             }
-            
 
 
 
-            bd_evaluationEntities3 bd=new bd_evaluationEntities3();
-            ViewBag.cc = s2; 
+
+            bd_evaluationEntities3 bd = new bd_evaluationEntities3();
+            ViewBag.cc = s2;
             ViewBag.bb = s1;
             return View();
         }

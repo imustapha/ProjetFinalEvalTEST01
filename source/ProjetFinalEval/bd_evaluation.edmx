@@ -4,7 +4,23 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="bd_evaluationModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="bd_evaluationModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="administrer">
+          <Key>
+            <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
+            <PropertyRef Name="IDPROJET" />
+          </Key>
+          <Property Name="IDCOLLABORATEURTITULAIRE" Type="int" Nullable="false" />
+          <Property Name="IDPROJET" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="affecter">
+          <Key>
+            <PropertyRef Name="IDCOLLABORATEURPE" />
+            <PropertyRef Name="IDPROJET" />
+          </Key>
+          <Property Name="IDCOLLABORATEURPE" Type="int" Nullable="false" />
+          <Property Name="IDPROJET" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="aspnetroles">
           <Key>
             <PropertyRef Name="Id" />
@@ -56,6 +72,14 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="varchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="caracteriser">
+          <Key>
+            <PropertyRef Name="IDEVALUATION" />
+            <PropertyRef Name="IDCRITERE" />
+          </Key>
+          <Property Name="IDEVALUATION" Type="int" Nullable="false" />
+          <Property Name="IDCRITERE" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="client">
           <Key>
             <PropertyRef Name="IDCLIENT" />
@@ -72,7 +96,7 @@
           <Property Name="NOMPE" Type="char" MaxLength="45" Nullable="false" />
           <Property Name="PRENOMPE" Type="char" MaxLength="45" Nullable="false" />
           <Property Name="IMAGEPE" Type="longblob" />
-          <Property Name="STATUT" Type="char" MaxLength="45" />
+          <Property Name="STATUT" Type="char" MaxLength="66" />
           <Property Name="IdUser" Type="varchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="collaborateurtitulaire">
@@ -100,7 +124,6 @@
             <PropertyRef Name="IDEVALUATION" />
           </Key>
           <Property Name="IDEVALUATION" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IDCRITERE" Type="int" Nullable="false" />
           <Property Name="IDCOLLABORATEURTITULAIRE" Type="int" Nullable="false" />
           <Property Name="IDCOLLABORATEURPE" Type="int" Nullable="false" />
           <Property Name="DATEEVALUATION" Type="char" MaxLength="45" />
@@ -136,12 +159,11 @@
             <PropertyRef Name="IDPROJET" />
           </Key>
           <Property Name="IDPROJET" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IDCOLLABORATEURTITULAIRE" Type="int" Nullable="false" />
           <Property Name="IDCLIENT" Type="int" Nullable="false" />
           <Property Name="NOMPROJET" Type="char" MaxLength="45" />
           <Property Name="DATEDEBUT" Type="date" />
           <Property Name="DATEFIN" Type="date" />
-          <Property Name="TYPE" Type="char" MaxLength="45" />
+          <Property Name="TYPE" Type="int" />
           <Property Name="FLAGTYPE" Type="bool" Nullable="false" />
         </EntityType>
         <EntityType Name="tache">
@@ -208,13 +230,49 @@
         </Association>
         <Association Name="FK_ADMINISTRER">
           <End Role="collaborateurtitulaire" Type="Self.collaborateurtitulaire" Multiplicity="1" />
-          <End Role="projet" Type="Self.projet" Multiplicity="*" />
+          <End Role="administrer" Type="Self.administrer" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="collaborateurtitulaire">
               <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
             </Principal>
-            <Dependent Role="projet">
+            <Dependent Role="administrer">
               <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ADMINISTRER2">
+          <End Role="projet" Type="Self.projet" Multiplicity="1" />
+          <End Role="administrer" Type="Self.administrer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projet">
+              <PropertyRef Name="IDPROJET" />
+            </Principal>
+            <Dependent Role="administrer">
+              <PropertyRef Name="IDPROJET" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFFECTER">
+          <End Role="collaborateurpe" Type="Self.collaborateurpe" Multiplicity="1" />
+          <End Role="affecter" Type="Self.affecter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="collaborateurpe">
+              <PropertyRef Name="IDCOLLABORATEURPE" />
+            </Principal>
+            <Dependent Role="affecter">
+              <PropertyRef Name="IDCOLLABORATEURPE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AFFECTER2">
+          <End Role="projet" Type="Self.projet" Multiplicity="1" />
+          <End Role="affecter" Type="Self.affecter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="projet">
+              <PropertyRef Name="IDPROJET" />
+            </Principal>
+            <Dependent Role="affecter">
+              <PropertyRef Name="IDPROJET" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -243,13 +301,25 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CARACTERISER">
+          <End Role="evaluation" Type="Self.evaluation" Multiplicity="1" />
+          <End Role="caracteriser" Type="Self.caracteriser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="evaluation">
+              <PropertyRef Name="IDEVALUATION" />
+            </Principal>
+            <Dependent Role="caracteriser">
+              <PropertyRef Name="IDEVALUATION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CARACTERISER2">
           <End Role="critere" Type="Self.critere" Multiplicity="1" />
-          <End Role="evaluation" Type="Self.evaluation" Multiplicity="*" />
+          <End Role="caracteriser" Type="Self.caracteriser" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="critere">
               <PropertyRef Name="IDCRITERE" />
             </Principal>
-            <Dependent Role="evaluation">
+            <Dependent Role="caracteriser">
               <PropertyRef Name="IDCRITERE" />
             </Dependent>
           </ReferentialConstraint>
@@ -290,6 +360,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_IdUser">
+          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1" />
+          <End Role="collaborateurtitulaire" Type="Self.collaborateurtitulaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetusers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="collaborateurtitulaire">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_IdUserPe">
+          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1" />
+          <End Role="collaborateurpe" Type="Self.collaborateurpe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetusers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="collaborateurpe">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MANIER">
           <End Role="collaborateurtitulaire" Type="Self.collaborateurtitulaire" Multiplicity="1" />
           <End Role="tache" Type="Self.tache" Multiplicity="*" />
@@ -302,7 +396,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OBTENIR">
+        <Association Name="FK_OCCUPER">
           <End Role="fonction" Type="Self.fonction" Multiplicity="1" />
           <End Role="collaborateurpe" Type="Self.collaborateurpe" Multiplicity="*" />
           <ReferentialConstraint>
@@ -338,30 +432,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_user">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1" />
-          <End Role="collaborateurtitulaire" Type="Self.collaborateurtitulaire" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetusers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="collaborateurtitulaire">
-              <PropertyRef Name="IdUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserPe">
-          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1" />
-          <End Role="collaborateurpe" Type="Self.collaborateurpe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetusers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="collaborateurpe">
-              <PropertyRef Name="IdUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="IdentityRole_Users">
           <End Role="aspnetroles" Type="Self.aspnetroles" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -377,11 +447,14 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="bd_evaluationModelStoreContainer">
+          <EntitySet Name="administrer" EntityType="Self.administrer" Schema="bd_evaluation" store:Type="Tables" />
+          <EntitySet Name="affecter" EntityType="Self.affecter" Schema="bd_evaluation" store:Type="Tables" />
           <EntitySet Name="aspnetroles" EntityType="Self.aspnetroles" Schema="bd_evaluation" store:Type="Tables" />
           <EntitySet Name="aspnetuserclaims" EntityType="Self.aspnetuserclaims" Schema="bd_evaluation" store:Type="Tables" />
           <EntitySet Name="aspnetuserlogins" EntityType="Self.aspnetuserlogins" Schema="bd_evaluation" store:Type="Tables" />
           <EntitySet Name="aspnetuserroles" EntityType="Self.aspnetuserroles" Schema="bd_evaluation" store:Type="Tables" />
           <EntitySet Name="aspnetusers" EntityType="Self.aspnetusers" Schema="bd_evaluation" store:Type="Tables" />
+          <EntitySet Name="caracteriser" EntityType="Self.caracteriser" Schema="bd_evaluation" store:Type="Tables" />
           <EntitySet Name="client" EntityType="Self.client" Schema="bd_evaluation" store:Type="Tables" />
           <EntitySet Name="collaborateurpe" EntityType="Self.collaborateurpe" Schema="bd_evaluation" store:Type="Tables" />
           <EntitySet Name="collaborateurtitulaire" EntityType="Self.collaborateurtitulaire" Schema="bd_evaluation" store:Type="Tables" />
@@ -407,7 +480,19 @@
           </AssociationSet>
           <AssociationSet Name="FK_ADMINISTRER" Association="Self.FK_ADMINISTRER">
             <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
+            <End Role="administrer" EntitySet="administrer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ADMINISTRER2" Association="Self.FK_ADMINISTRER2">
             <End Role="projet" EntitySet="projet" />
+            <End Role="administrer" EntitySet="administrer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFFECTER" Association="Self.FK_AFFECTER">
+            <End Role="collaborateurpe" EntitySet="collaborateurpe" />
+            <End Role="affecter" EntitySet="affecter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AFFECTER2" Association="Self.FK_AFFECTER2">
+            <End Role="projet" EntitySet="projet" />
+            <End Role="affecter" EntitySet="affecter" />
           </AssociationSet>
           <AssociationSet Name="FK_APPARTENIR" Association="Self.FK_APPARTENIR">
             <End Role="client" EntitySet="client" />
@@ -418,8 +503,12 @@
             <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
           </AssociationSet>
           <AssociationSet Name="FK_CARACTERISER" Association="Self.FK_CARACTERISER">
-            <End Role="critere" EntitySet="critere" />
             <End Role="evaluation" EntitySet="evaluation" />
+            <End Role="caracteriser" EntitySet="caracteriser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CARACTERISER2" Association="Self.FK_CARACTERISER2">
+            <End Role="critere" EntitySet="critere" />
+            <End Role="caracteriser" EntitySet="caracteriser" />
           </AssociationSet>
           <AssociationSet Name="FK_CONTIENT" Association="Self.FK_CONTIENT">
             <End Role="projet" EntitySet="projet" />
@@ -433,11 +522,19 @@
             <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
             <End Role="evaluation" EntitySet="evaluation" />
           </AssociationSet>
+          <AssociationSet Name="fk_IdUser" Association="Self.fk_IdUser">
+            <End Role="aspnetusers" EntitySet="aspnetusers" />
+            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
+          </AssociationSet>
+          <AssociationSet Name="fk_IdUserPe" Association="Self.fk_IdUserPe">
+            <End Role="aspnetusers" EntitySet="aspnetusers" />
+            <End Role="collaborateurpe" EntitySet="collaborateurpe" />
+          </AssociationSet>
           <AssociationSet Name="FK_MANIER" Association="Self.FK_MANIER">
             <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
             <End Role="tache" EntitySet="tache" />
           </AssociationSet>
-          <AssociationSet Name="FK_OBTENIR" Association="Self.FK_OBTENIR">
+          <AssociationSet Name="FK_OCCUPER" Association="Self.FK_OCCUPER">
             <End Role="fonction" EntitySet="fonction" />
             <End Role="collaborateurpe" EntitySet="collaborateurpe" />
           </AssociationSet>
@@ -449,20 +546,13 @@
             <End Role="famillecritere" EntitySet="famillecritere" />
             <End Role="critere" EntitySet="critere" />
           </AssociationSet>
-          <AssociationSet Name="FK_user" Association="Self.FK_user">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserPe" Association="Self.FK_UserPe">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="collaborateurpe" EntitySet="collaborateurpe" />
-          </AssociationSet>
           <AssociationSet Name="IdentityRole_Users" Association="Self.IdentityRole_Users">
             <End Role="aspnetroles" EntitySet="aspnetroles" />
             <End Role="aspnetuserroles" EntitySet="aspnetuserroles" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="bd_evaluationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -513,9 +603,9 @@
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="aspnetuserclaims" Relationship="Self.ApplicationUser_Claims" FromRole="aspnetusers" ToRole="aspnetuserclaims" />
           <NavigationProperty Name="aspnetuserlogins" Relationship="Self.ApplicationUser_Logins" FromRole="aspnetusers" ToRole="aspnetuserlogins" />
+          <NavigationProperty Name="collaborateurtitulaire" Relationship="Self.fk_IdUser" FromRole="aspnetusers" ToRole="collaborateurtitulaire" />
+          <NavigationProperty Name="collaborateurpe" Relationship="Self.fk_IdUserPe" FromRole="aspnetusers" ToRole="collaborateurpe" />
           <NavigationProperty Name="aspnetroles" Relationship="Self.aspnetuserroles" FromRole="aspnetusers" ToRole="aspnetroles" />
-          <NavigationProperty Name="collaborateurtitulaire" Relationship="bd_evaluationModel.FK_user" FromRole="aspnetusers" ToRole="collaborateurtitulaire" />
-          <NavigationProperty Name="collaborateurpe" Relationship="bd_evaluationModel.FK_UserPe" FromRole="aspnetusers" ToRole="collaborateurpe" />
         </EntityType>
         <EntityType Name="client">
           <Key>
@@ -525,6 +615,40 @@
           <Property Name="ABREVIATION" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="projet" Relationship="Self.FK_APPARTENIR" FromRole="client" ToRole="projet" />
         </EntityType>
+        <EntityType Name="collaborateurpe">
+          <Key>
+            <PropertyRef Name="IDCOLLABORATEURPE" />
+          </Key>
+          <Property Name="IDCOLLABORATEURPE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDFONCTION" Type="Int32" Nullable="false" />
+          <Property Name="NOMPE" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRENOMPE" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IMAGEPE" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="STATUT" Type="String" MaxLength="66" FixedLength="false" Unicode="false" />
+          <Property Name="IdUser" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="aspnetusers" Relationship="Self.fk_IdUserPe" FromRole="collaborateurpe" ToRole="aspnetusers" />
+          <NavigationProperty Name="evaluation" Relationship="Self.FK_EVALUER" FromRole="collaborateurpe" ToRole="evaluation" />
+          <NavigationProperty Name="fonction" Relationship="Self.FK_OCCUPER" FromRole="collaborateurpe" ToRole="fonction" />
+          <NavigationProperty Name="projet" Relationship="Self.affecter" FromRole="collaborateurpe" ToRole="projet" />
+        </EntityType>
+        <EntityType Name="collaborateurtitulaire">
+          <Key>
+            <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
+          </Key>
+          <Property Name="IDCOLLABORATEURTITULAIRE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IDFONCTION" Type="Int32" Nullable="false" />
+          <Property Name="NOM" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PRENOM" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IMAGE" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="FLAGEVAL" Type="Boolean" Nullable="false" />
+          <Property Name="IdUser" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="aspnetusers" Relationship="Self.fk_IdUser" FromRole="collaborateurtitulaire" ToRole="aspnetusers" />
+          <NavigationProperty Name="fonction" Relationship="Self.FK_AVOIR" FromRole="collaborateurtitulaire" ToRole="fonction" />
+          <NavigationProperty Name="evaluation" Relationship="Self.FK_EXAMINER" FromRole="collaborateurtitulaire" ToRole="evaluation" />
+          <NavigationProperty Name="tache" Relationship="Self.FK_MANIER" FromRole="collaborateurtitulaire" ToRole="tache" />
+          <NavigationProperty Name="variable" Relationship="Self.FK_POSSEDER" FromRole="collaborateurtitulaire" ToRole="variable" />
+          <NavigationProperty Name="projet" Relationship="Self.administrer" FromRole="collaborateurtitulaire" ToRole="projet" />
+        </EntityType>
         <EntityType Name="critere">
           <Key>
             <PropertyRef Name="IDCRITERE" />
@@ -532,23 +656,22 @@
           <Property Name="IDCRITERE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IDFAMILLECRITERE" Type="Int32" Nullable="false" />
           <Property Name="NOMCRITERE" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="evaluation" Relationship="Self.FK_CARACTERISER" FromRole="critere" ToRole="evaluation" />
           <NavigationProperty Name="famillecritere" Relationship="Self.FK_SELECTIONNER" FromRole="critere" ToRole="famillecritere" />
+          <NavigationProperty Name="evaluation" Relationship="Self.caracteriser" FromRole="critere" ToRole="evaluation" />
         </EntityType>
         <EntityType Name="evaluation">
           <Key>
             <PropertyRef Name="IDEVALUATION" />
           </Key>
           <Property Name="IDEVALUATION" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IDCRITERE" Type="Int32" Nullable="false" />
           <Property Name="IDCOLLABORATEURTITULAIRE" Type="Int32" Nullable="false" />
           <Property Name="IDCOLLABORATEURPE" Type="Int32" Nullable="false" />
           <Property Name="DATEEVALUATION" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="DATENEXTEVALUATION" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="APPRECIATION" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="critere" Relationship="Self.FK_CARACTERISER" FromRole="evaluation" ToRole="critere" />
-          <NavigationProperty Name="collaborateurpe" Relationship="bd_evaluationModel.FK_EVALUER" FromRole="evaluation" ToRole="collaborateurpe" />
-          <NavigationProperty Name="collaborateurtitulaire" Relationship="bd_evaluationModel.FK_EXAMINER" FromRole="evaluation" ToRole="collaborateurtitulaire" />
+          <NavigationProperty Name="collaborateurpe" Relationship="Self.FK_EVALUER" FromRole="evaluation" ToRole="collaborateurpe" />
+          <NavigationProperty Name="collaborateurtitulaire" Relationship="Self.FK_EXAMINER" FromRole="evaluation" ToRole="collaborateurtitulaire" />
+          <NavigationProperty Name="critere" Relationship="Self.caracteriser" FromRole="evaluation" ToRole="critere" />
         </EntityType>
         <EntityType Name="famillecritere">
           <Key>
@@ -564,8 +687,8 @@
           </Key>
           <Property Name="IDFONCTION" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NOMFONCTION" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="collaborateurpe" Relationship="bd_evaluationModel.FK_OBTENIR" FromRole="fonction" ToRole="collaborateurpe" />
-          <NavigationProperty Name="collaborateurtitulaire" Relationship="bd_evaluationModel.FK_AVOIR" FromRole="fonction" ToRole="collaborateurtitulaire" />
+          <NavigationProperty Name="collaborateurpe" Relationship="Self.FK_OCCUPER" FromRole="fonction" ToRole="collaborateurpe" />
+          <NavigationProperty Name="collaborateurtitulaire" Relationship="Self.FK_AVOIR" FromRole="fonction" ToRole="collaborateurtitulaire" />
         </EntityType>
         <EntityType Name="freelance">
           <Key>
@@ -582,16 +705,16 @@
             <PropertyRef Name="IDPROJET" />
           </Key>
           <Property Name="IDPROJET" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IDCOLLABORATEURTITULAIRE" Type="Int32" Nullable="false" />
           <Property Name="IDCLIENT" Type="Int32" Nullable="false" />
           <Property Name="NOMPROJET" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="DATEDEBUT" Type="DateTime" />
           <Property Name="DATEFIN" Type="DateTime" />
-          <Property Name="TYPE" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="TYPE" Type="Int32" />
           <Property Name="FLAGTYPE" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="client" Relationship="Self.FK_APPARTENIR" FromRole="projet" ToRole="client" />
           <NavigationProperty Name="tache" Relationship="Self.FK_CONTIENT" FromRole="projet" ToRole="tache" />
-          <NavigationProperty Name="collaborateurtitulaire" Relationship="bd_evaluationModel.FK_ADMINISTRER" FromRole="projet" ToRole="collaborateurtitulaire" />
+          <NavigationProperty Name="collaborateurtitulaire" Relationship="Self.administrer" FromRole="projet" ToRole="collaborateurtitulaire" />
+          <NavigationProperty Name="collaborateurpe" Relationship="Self.affecter" FromRole="projet" ToRole="collaborateurpe" />
         </EntityType>
         <EntityType Name="tache">
           <Key>
@@ -603,8 +726,8 @@
           <Property Name="NOMTACHE" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="DATEDEBUTTACHE" Type="DateTime" />
           <Property Name="DATEFINTACHE" Type="DateTime" />
+          <NavigationProperty Name="collaborateurtitulaire" Relationship="Self.FK_MANIER" FromRole="tache" ToRole="collaborateurtitulaire" />
           <NavigationProperty Name="projet" Relationship="Self.FK_CONTIENT" FromRole="tache" ToRole="projet" />
-          <NavigationProperty Name="collaborateurtitulaire" Relationship="bd_evaluationModel.FK_MANIER" FromRole="tache" ToRole="collaborateurtitulaire" />
         </EntityType>
         <EntityType Name="variable">
           <Key>
@@ -614,7 +737,7 @@
           <Property Name="IDCOLLABORATEURTITULAIRE" Type="Int32" Nullable="false" />
           <Property Name="TAUX" Type="Int32" />
           <Property Name="PERIODE" Type="Int32" />
-          <NavigationProperty Name="collaborateurtitulaire" Relationship="bd_evaluationModel.FK_POSSEDER" FromRole="variable" ToRole="collaborateurtitulaire" />
+          <NavigationProperty Name="collaborateurtitulaire" Relationship="Self.FK_POSSEDER" FromRole="variable" ToRole="collaborateurtitulaire" />
         </EntityType>
         <Association Name="ApplicationUser_Claims">
           <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1">
@@ -644,6 +767,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_IdUser">
+          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1" />
+          <End Role="collaborateurtitulaire" Type="Self.collaborateurtitulaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetusers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="collaborateurtitulaire">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_IdUserPe">
+          <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="1" />
+          <End Role="collaborateurpe" Type="Self.collaborateurpe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="aspnetusers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="collaborateurpe">
+              <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_APPARTENIR">
           <End Role="client" Type="Self.client" Multiplicity="1" />
           <End Role="projet" Type="Self.projet" Multiplicity="*" />
@@ -656,15 +803,75 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CARACTERISER">
-          <End Role="critere" Type="Self.critere" Multiplicity="1" />
+        <Association Name="FK_EVALUER">
+          <End Role="collaborateurpe" Type="Self.collaborateurpe" Multiplicity="1" />
           <End Role="evaluation" Type="Self.evaluation" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="critere">
-              <PropertyRef Name="IDCRITERE" />
+            <Principal Role="collaborateurpe">
+              <PropertyRef Name="IDCOLLABORATEURPE" />
             </Principal>
             <Dependent Role="evaluation">
-              <PropertyRef Name="IDCRITERE" />
+              <PropertyRef Name="IDCOLLABORATEURPE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OCCUPER">
+          <End Role="fonction" Type="Self.fonction" Multiplicity="1" />
+          <End Role="collaborateurpe" Type="Self.collaborateurpe" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fonction">
+              <PropertyRef Name="IDFONCTION" />
+            </Principal>
+            <Dependent Role="collaborateurpe">
+              <PropertyRef Name="IDFONCTION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AVOIR">
+          <End Role="fonction" Type="Self.fonction" Multiplicity="1" />
+          <End Role="collaborateurtitulaire" Type="Self.collaborateurtitulaire" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="fonction">
+              <PropertyRef Name="IDFONCTION" />
+            </Principal>
+            <Dependent Role="collaborateurtitulaire">
+              <PropertyRef Name="IDFONCTION" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EXAMINER">
+          <End Role="collaborateurtitulaire" Type="Self.collaborateurtitulaire" Multiplicity="1" />
+          <End Role="evaluation" Type="Self.evaluation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="collaborateurtitulaire">
+              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
+            </Principal>
+            <Dependent Role="evaluation">
+              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MANIER">
+          <End Role="collaborateurtitulaire" Type="Self.collaborateurtitulaire" Multiplicity="1" />
+          <End Role="tache" Type="Self.tache" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="collaborateurtitulaire">
+              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
+            </Principal>
+            <Dependent Role="tache">
+              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_POSSEDER">
+          <End Role="collaborateurtitulaire" Type="Self.collaborateurtitulaire" Multiplicity="1" />
+          <End Role="variable" Type="Self.variable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="collaborateurtitulaire">
+              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
+            </Principal>
+            <Dependent Role="variable">
+              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -692,9 +899,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="administrer">
+          <End Role="collaborateurtitulaire" Type="Self.collaborateurtitulaire" Multiplicity="*" />
+          <End Role="projet" Type="Self.projet" Multiplicity="*" />
+        </Association>
+        <Association Name="affecter">
+          <End Role="collaborateurpe" Type="Self.collaborateurpe" Multiplicity="*" />
+          <End Role="projet" Type="Self.projet" Multiplicity="*" />
+        </Association>
         <Association Name="aspnetuserroles">
           <End Role="aspnetusers" Type="Self.aspnetusers" Multiplicity="*" />
           <End Role="aspnetroles" Type="Self.aspnetroles" Multiplicity="*" />
+        </Association>
+        <Association Name="caracteriser">
+          <End Role="evaluation" Type="Self.evaluation" Multiplicity="*" />
+          <End Role="critere" Type="Self.critere" Multiplicity="*" />
         </Association>
         <EntityContainer Name="bd_evaluationEntities3" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="aspnetroles" EntityType="Self.aspnetroles" />
@@ -702,6 +921,8 @@
           <EntitySet Name="aspnetuserlogins" EntityType="Self.aspnetuserlogins" />
           <EntitySet Name="aspnetusers" EntityType="Self.aspnetusers" />
           <EntitySet Name="client" EntityType="Self.client" />
+          <EntitySet Name="collaborateurpe" EntityType="Self.collaborateurpe" />
+          <EntitySet Name="collaborateurtitulaire" EntityType="Self.collaborateurtitulaire" />
           <EntitySet Name="critere" EntityType="Self.critere" />
           <EntitySet Name="evaluation" EntityType="Self.evaluation" />
           <EntitySet Name="famillecritere" EntityType="Self.famillecritere" />
@@ -718,13 +939,41 @@
             <End Role="aspnetusers" EntitySet="aspnetusers" />
             <End Role="aspnetuserlogins" EntitySet="aspnetuserlogins" />
           </AssociationSet>
+          <AssociationSet Name="fk_IdUser" Association="Self.fk_IdUser">
+            <End Role="aspnetusers" EntitySet="aspnetusers" />
+            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
+          </AssociationSet>
+          <AssociationSet Name="fk_IdUserPe" Association="Self.fk_IdUserPe">
+            <End Role="aspnetusers" EntitySet="aspnetusers" />
+            <End Role="collaborateurpe" EntitySet="collaborateurpe" />
+          </AssociationSet>
           <AssociationSet Name="FK_APPARTENIR" Association="Self.FK_APPARTENIR">
             <End Role="client" EntitySet="client" />
             <End Role="projet" EntitySet="projet" />
           </AssociationSet>
-          <AssociationSet Name="FK_CARACTERISER" Association="Self.FK_CARACTERISER">
-            <End Role="critere" EntitySet="critere" />
+          <AssociationSet Name="FK_EVALUER" Association="Self.FK_EVALUER">
+            <End Role="collaborateurpe" EntitySet="collaborateurpe" />
             <End Role="evaluation" EntitySet="evaluation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OCCUPER" Association="Self.FK_OCCUPER">
+            <End Role="fonction" EntitySet="fonction" />
+            <End Role="collaborateurpe" EntitySet="collaborateurpe" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AVOIR" Association="Self.FK_AVOIR">
+            <End Role="fonction" EntitySet="fonction" />
+            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EXAMINER" Association="Self.FK_EXAMINER">
+            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
+            <End Role="evaluation" EntitySet="evaluation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MANIER" Association="Self.FK_MANIER">
+            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
+            <End Role="tache" EntitySet="tache" />
+          </AssociationSet>
+          <AssociationSet Name="FK_POSSEDER" Association="Self.FK_POSSEDER">
+            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
+            <End Role="variable" EntitySet="variable" />
           </AssociationSet>
           <AssociationSet Name="FK_SELECTIONNER" Association="Self.FK_SELECTIONNER">
             <End Role="famillecritere" EntitySet="famillecritere" />
@@ -734,190 +983,23 @@
             <End Role="projet" EntitySet="projet" />
             <End Role="tache" EntitySet="tache" />
           </AssociationSet>
+          <AssociationSet Name="administrer" Association="Self.administrer">
+            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
+            <End Role="projet" EntitySet="projet" />
+          </AssociationSet>
+          <AssociationSet Name="affecter" Association="Self.affecter">
+            <End Role="collaborateurpe" EntitySet="collaborateurpe" />
+            <End Role="projet" EntitySet="projet" />
+          </AssociationSet>
           <AssociationSet Name="aspnetuserroles" Association="Self.aspnetuserroles">
             <End Role="aspnetusers" EntitySet="aspnetusers" />
             <End Role="aspnetroles" EntitySet="aspnetroles" />
           </AssociationSet>
-          <EntitySet Name="collaborateurpe" EntityType="bd_evaluationModel.collaborateurpe" />
-          <EntitySet Name="collaborateurtitulaire" EntityType="bd_evaluationModel.collaborateurtitulaire" />
-          <AssociationSet Name="FK_user" Association="bd_evaluationModel.FK_user">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserPe" Association="bd_evaluationModel.FK_UserPe">
-            <End Role="aspnetusers" EntitySet="aspnetusers" />
-            <End Role="collaborateurpe" EntitySet="collaborateurpe" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EVALUER" Association="bd_evaluationModel.FK_EVALUER">
-            <End Role="collaborateurpe" EntitySet="collaborateurpe" />
+          <AssociationSet Name="caracteriser" Association="Self.caracteriser">
             <End Role="evaluation" EntitySet="evaluation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OBTENIR" Association="bd_evaluationModel.FK_OBTENIR">
-            <End Role="fonction" EntitySet="fonction" />
-            <End Role="collaborateurpe" EntitySet="collaborateurpe" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ADMINISTRER" Association="bd_evaluationModel.FK_ADMINISTRER">
-            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
-            <End Role="projet" EntitySet="projet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_AVOIR" Association="bd_evaluationModel.FK_AVOIR">
-            <End Role="fonction" EntitySet="fonction" />
-            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
-          </AssociationSet>
-          <AssociationSet Name="FK_EXAMINER" Association="bd_evaluationModel.FK_EXAMINER">
-            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
-            <End Role="evaluation" EntitySet="evaluation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MANIER" Association="bd_evaluationModel.FK_MANIER">
-            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
-            <End Role="tache" EntitySet="tache" />
-          </AssociationSet>
-          <AssociationSet Name="FK_POSSEDER" Association="bd_evaluationModel.FK_POSSEDER">
-            <End Role="collaborateurtitulaire" EntitySet="collaborateurtitulaire" />
-            <End Role="variable" EntitySet="variable" />
+            <End Role="critere" EntitySet="critere" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="collaborateurpe">
-          <Key>
-            <PropertyRef Name="IDCOLLABORATEURPE" />
-          </Key>
-          <Property Name="IDCOLLABORATEURPE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IDFONCTION" Type="Int32" Nullable="false" />
-          <Property Name="NOMPE" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="PRENOMPE" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="IMAGEPE" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="STATUT" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="IdUser" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="aspnetusers" Relationship="bd_evaluationModel.FK_UserPe" FromRole="collaborateurpe" ToRole="aspnetusers" />
-          <NavigationProperty Name="evaluation" Relationship="bd_evaluationModel.FK_EVALUER" FromRole="collaborateurpe" ToRole="evaluation" />
-          <NavigationProperty Name="fonction" Relationship="bd_evaluationModel.FK_OBTENIR" FromRole="collaborateurpe" ToRole="fonction" />
-        </EntityType>
-        <EntityType Name="collaborateurtitulaire">
-          <Key>
-            <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
-          </Key>
-          <Property Name="IDCOLLABORATEURTITULAIRE" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IDFONCTION" Type="Int32" Nullable="false" />
-          <Property Name="NOM" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="PRENOM" Type="String" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Name="IMAGE" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="FLAGEVAL" Type="Boolean" Nullable="false" />
-          <Property Name="IdUser" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="aspnetusers" Relationship="bd_evaluationModel.FK_user" FromRole="collaborateurtitulaire" ToRole="aspnetusers" />
-          <NavigationProperty Name="projet" Relationship="bd_evaluationModel.FK_ADMINISTRER" FromRole="collaborateurtitulaire" ToRole="projet" />
-          <NavigationProperty Name="fonction" Relationship="bd_evaluationModel.FK_AVOIR" FromRole="collaborateurtitulaire" ToRole="fonction" />
-          <NavigationProperty Name="evaluation" Relationship="bd_evaluationModel.FK_EXAMINER" FromRole="collaborateurtitulaire" ToRole="evaluation" />
-          <NavigationProperty Name="tache" Relationship="bd_evaluationModel.FK_MANIER" FromRole="collaborateurtitulaire" ToRole="tache" />
-          <NavigationProperty Name="variable" Relationship="bd_evaluationModel.FK_POSSEDER" FromRole="collaborateurtitulaire" ToRole="variable" />
-        </EntityType>
-        <Association Name="FK_user">
-          <End Type="bd_evaluationModel.aspnetusers" Role="aspnetusers" Multiplicity="1" />
-          <End Type="bd_evaluationModel.collaborateurtitulaire" Role="collaborateurtitulaire" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetusers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="collaborateurtitulaire">
-              <PropertyRef Name="IdUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserPe">
-          <End Type="bd_evaluationModel.aspnetusers" Role="aspnetusers" Multiplicity="1" />
-          <End Type="bd_evaluationModel.collaborateurpe" Role="collaborateurpe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="aspnetusers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="collaborateurpe">
-              <PropertyRef Name="IdUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EVALUER">
-          <End Type="bd_evaluationModel.collaborateurpe" Role="collaborateurpe" Multiplicity="1" />
-          <End Type="bd_evaluationModel.evaluation" Role="evaluation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="collaborateurpe">
-              <PropertyRef Name="IDCOLLABORATEURPE" />
-            </Principal>
-            <Dependent Role="evaluation">
-              <PropertyRef Name="IDCOLLABORATEURPE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OBTENIR">
-          <End Type="bd_evaluationModel.fonction" Role="fonction" Multiplicity="1" />
-          <End Type="bd_evaluationModel.collaborateurpe" Role="collaborateurpe" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="fonction">
-              <PropertyRef Name="IDFONCTION" />
-            </Principal>
-            <Dependent Role="collaborateurpe">
-              <PropertyRef Name="IDFONCTION" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ADMINISTRER">
-          <End Type="bd_evaluationModel.collaborateurtitulaire" Role="collaborateurtitulaire" Multiplicity="1" />
-          <End Type="bd_evaluationModel.projet" Role="projet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="collaborateurtitulaire">
-              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
-            </Principal>
-            <Dependent Role="projet">
-              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_AVOIR">
-          <End Type="bd_evaluationModel.fonction" Role="fonction" Multiplicity="1" />
-          <End Type="bd_evaluationModel.collaborateurtitulaire" Role="collaborateurtitulaire" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="fonction">
-              <PropertyRef Name="IDFONCTION" />
-            </Principal>
-            <Dependent Role="collaborateurtitulaire">
-              <PropertyRef Name="IDFONCTION" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_EXAMINER">
-          <End Type="bd_evaluationModel.collaborateurtitulaire" Role="collaborateurtitulaire" Multiplicity="1" />
-          <End Type="bd_evaluationModel.evaluation" Role="evaluation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="collaborateurtitulaire">
-              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
-            </Principal>
-            <Dependent Role="evaluation">
-              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_MANIER">
-          <End Type="bd_evaluationModel.collaborateurtitulaire" Role="collaborateurtitulaire" Multiplicity="1" />
-          <End Type="bd_evaluationModel.tache" Role="tache" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="collaborateurtitulaire">
-              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
-            </Principal>
-            <Dependent Role="tache">
-              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_POSSEDER">
-          <End Type="bd_evaluationModel.collaborateurtitulaire" Role="collaborateurtitulaire" Multiplicity="1" />
-          <End Type="bd_evaluationModel.variable" Role="variable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="collaborateurtitulaire">
-              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
-            </Principal>
-            <Dependent Role="variable">
-              <PropertyRef Name="IDCOLLABORATEURTITULAIRE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -977,6 +1059,32 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="collaborateurpe">
+            <EntityTypeMapping TypeName="bd_evaluationModel.collaborateurpe">
+              <MappingFragment StoreEntitySet="collaborateurpe">
+                <ScalarProperty Name="IDCOLLABORATEURPE" ColumnName="IDCOLLABORATEURPE" />
+                <ScalarProperty Name="IDFONCTION" ColumnName="IDFONCTION" />
+                <ScalarProperty Name="NOMPE" ColumnName="NOMPE" />
+                <ScalarProperty Name="PRENOMPE" ColumnName="PRENOMPE" />
+                <ScalarProperty Name="IMAGEPE" ColumnName="IMAGEPE" />
+                <ScalarProperty Name="STATUT" ColumnName="STATUT" />
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="collaborateurtitulaire">
+            <EntityTypeMapping TypeName="bd_evaluationModel.collaborateurtitulaire">
+              <MappingFragment StoreEntitySet="collaborateurtitulaire">
+                <ScalarProperty Name="IDCOLLABORATEURTITULAIRE" ColumnName="IDCOLLABORATEURTITULAIRE" />
+                <ScalarProperty Name="IDFONCTION" ColumnName="IDFONCTION" />
+                <ScalarProperty Name="NOM" ColumnName="NOM" />
+                <ScalarProperty Name="PRENOM" ColumnName="PRENOM" />
+                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
+                <ScalarProperty Name="FLAGEVAL" ColumnName="FLAGEVAL" />
+                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="critere">
             <EntityTypeMapping TypeName="bd_evaluationModel.critere">
               <MappingFragment StoreEntitySet="critere">
@@ -990,7 +1098,6 @@
             <EntityTypeMapping TypeName="bd_evaluationModel.evaluation">
               <MappingFragment StoreEntitySet="evaluation">
                 <ScalarProperty Name="IDEVALUATION" ColumnName="IDEVALUATION" />
-                <ScalarProperty Name="IDCRITERE" ColumnName="IDCRITERE" />
                 <ScalarProperty Name="IDCOLLABORATEURTITULAIRE" ColumnName="IDCOLLABORATEURTITULAIRE" />
                 <ScalarProperty Name="IDCOLLABORATEURPE" ColumnName="IDCOLLABORATEURPE" />
                 <ScalarProperty Name="DATEEVALUATION" ColumnName="DATEEVALUATION" />
@@ -1030,7 +1137,6 @@
             <EntityTypeMapping TypeName="bd_evaluationModel.projet">
               <MappingFragment StoreEntitySet="projet">
                 <ScalarProperty Name="IDPROJET" ColumnName="IDPROJET" />
-                <ScalarProperty Name="IDCOLLABORATEURTITULAIRE" ColumnName="IDCOLLABORATEURTITULAIRE" />
                 <ScalarProperty Name="IDCLIENT" ColumnName="IDCLIENT" />
                 <ScalarProperty Name="NOMPROJET" ColumnName="NOMPROJET" />
                 <ScalarProperty Name="DATEDEBUT" ColumnName="DATEDEBUT" />
@@ -1062,6 +1168,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="administrer" TypeName="bd_evaluationModel.administrer" StoreEntitySet="administrer">
+            <EndProperty Name="collaborateurtitulaire">
+              <ScalarProperty Name="IDCOLLABORATEURTITULAIRE" ColumnName="IDCOLLABORATEURTITULAIRE" />
+            </EndProperty>
+            <EndProperty Name="projet">
+              <ScalarProperty Name="IDPROJET" ColumnName="IDPROJET" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="affecter" TypeName="bd_evaluationModel.affecter" StoreEntitySet="affecter">
+            <EndProperty Name="collaborateurpe">
+              <ScalarProperty Name="IDCOLLABORATEURPE" ColumnName="IDCOLLABORATEURPE" />
+            </EndProperty>
+            <EndProperty Name="projet">
+              <ScalarProperty Name="IDPROJET" ColumnName="IDPROJET" />
+            </EndProperty>
+          </AssociationSetMapping>
           <AssociationSetMapping Name="aspnetuserroles" TypeName="bd_evaluationModel.aspnetuserroles" StoreEntitySet="aspnetuserroles">
             <EndProperty Name="aspnetusers">
               <ScalarProperty Name="Id" ColumnName="UserId" />
@@ -1070,32 +1192,14 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="collaborateurpe">
-            <EntityTypeMapping TypeName="bd_evaluationModel.collaborateurpe">
-              <MappingFragment StoreEntitySet="collaborateurpe">
-                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
-                <ScalarProperty Name="STATUT" ColumnName="STATUT" />
-                <ScalarProperty Name="IMAGEPE" ColumnName="IMAGEPE" />
-                <ScalarProperty Name="PRENOMPE" ColumnName="PRENOMPE" />
-                <ScalarProperty Name="NOMPE" ColumnName="NOMPE" />
-                <ScalarProperty Name="IDFONCTION" ColumnName="IDFONCTION" />
-                <ScalarProperty Name="IDCOLLABORATEURPE" ColumnName="IDCOLLABORATEURPE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="collaborateurtitulaire">
-            <EntityTypeMapping TypeName="bd_evaluationModel.collaborateurtitulaire">
-              <MappingFragment StoreEntitySet="collaborateurtitulaire">
-                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
-                <ScalarProperty Name="FLAGEVAL" ColumnName="FLAGEVAL" />
-                <ScalarProperty Name="IMAGE" ColumnName="IMAGE" />
-                <ScalarProperty Name="PRENOM" ColumnName="PRENOM" />
-                <ScalarProperty Name="NOM" ColumnName="NOM" />
-                <ScalarProperty Name="IDFONCTION" ColumnName="IDFONCTION" />
-                <ScalarProperty Name="IDCOLLABORATEURTITULAIRE" ColumnName="IDCOLLABORATEURTITULAIRE" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+          <AssociationSetMapping Name="caracteriser" TypeName="bd_evaluationModel.caracteriser" StoreEntitySet="caracteriser">
+            <EndProperty Name="evaluation">
+              <ScalarProperty Name="IDEVALUATION" ColumnName="IDEVALUATION" />
+            </EndProperty>
+            <EndProperty Name="critere">
+              <ScalarProperty Name="IDCRITERE" ColumnName="IDCRITERE" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

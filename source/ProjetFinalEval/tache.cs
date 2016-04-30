@@ -21,7 +21,7 @@ namespace ProjetFinalEval
         public Nullable<System.DateTime> DATEDEBUTTACHE { get; set; }
         public Nullable<System.DateTime> DATEFINTACHE { get; set; }
     
-        public virtual projet projet { get; set; }
         public virtual collaborateurtitulaire collaborateurtitulaire { get; set; }
+        public virtual projet projet { get; set; }
     }
 }
