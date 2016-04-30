@@ -11,7 +11,10 @@ namespace ProjetFinalEval
 {
     using System;
     using System.Collections.Generic;
+<<<<<<< HEAD
     using System.Web;
+=======
+>>>>>>> 6a3392d3e4c64c8b5c3e38ac02e75465fbd3847a
     
     public partial class collaborateurtitulaire
     {
@@ -30,7 +33,10 @@ namespace ProjetFinalEval
         public byte[] IMAGE { get; set; }
         public bool FLAGEVAL { get; set; }
         public string IdUser { get; set; }
+<<<<<<< HEAD
         public HttpPostedFileBase File { get; set; }
+=======
+>>>>>>> 6a3392d3e4c64c8b5c3e38ac02e75465fbd3847a
     
         public virtual aspnetusers aspnetusers { get; set; }
         public virtual fonction fonction { get; set; }

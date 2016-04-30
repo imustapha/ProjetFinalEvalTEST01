@@ -95,16 +95,18 @@ namespace ProjetFinalEval.Controllers
                 byte[] data = new byte[model.File.ContentLength];
                 model.File.InputStream.Read(data, 0, model.File.ContentLength);
                 model.IMAGEPE = data;
-                 if (ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
-                var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-                var resulte = await UserManager.CreateAsync(user, model.Password);
+                    var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+                    var resulte = await UserManager.CreateAsync(user, model.Password);
 
-                var userToInsert =bd.aspnetusers.Where(i=>i.UserName==user.UserName).FirstOrDefault(); 
-                    if(userToInsert != null){
+                    var userToInsert = bd.aspnetusers.Where(i => i.UserName == user.UserName).FirstOrDefault();
+                    if (userToInsert != null)
+                    {
 
                         var colpe = new collaborateurpe() { IdUser = userToInsert.Id, NOMPE = model.NOMPE, PRENOMPE = model.PRENOMPE, IDFONCTION = model.IDFONCTION, IMAGEPE = model.IMAGEPE, STATUT = model.STATUT };
-                        if (resulte.Succeeded) {
+                        if (resulte.Succeeded)
+                        {
 
                             await SignInAsync(user, isPersistent: false);
                             bd.collaborateurpe.Add(colpe);
@@ -115,13 +117,13 @@ namespace ProjetFinalEval.Controllers
                     }
 
                 }
-                 else if (!ModelState.IsValid)
-                 {
-                     ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION");
-                     return View();
-                 }
-            
-               
+                else if (!ModelState.IsValid)
+                {
+                    ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION");
+                    return View();
+                }
+
+
                 return View();
             }
             catch (Exception ex)
@@ -130,8 +132,8 @@ namespace ProjetFinalEval.Controllers
                 string tst = ex.Message;
                 return View();
             }
-           
-            
+
+
         }
 
         // GET: CollaborateurPE/Edit/5
@@ -152,15 +154,15 @@ namespace ProjetFinalEval.Controllers
         [HttpPost]
         public ActionResult Edit(collaborateurpe pe)
         {
-            int id=pe.IDCOLLABORATEURPE;
+            int id = pe.IDCOLLABORATEURPE;
             ViewBag.IDFONCTION = new SelectList(bd.fonction, "IDFONCTION", "NOMFONCTION");
             collaborateurpe col = bd.collaborateurpe.Find(id);
             aspnetusers ass = bd.aspnetusers.Find(col.IdUser);
-              col.NOMPE = pe.NOMPE;
-              col.PRENOMPE =pe.PRENOMPE ;
-              col.STATUT = pe.STATUT;
-              col.IDFONCTION = pe.IDFONCTION;
-            
+            col.NOMPE = pe.NOMPE;
+            col.PRENOMPE = pe.PRENOMPE;
+            col.STATUT = pe.STATUT;
+            col.IDFONCTION = pe.IDFONCTION;
+
             if (pe.fonction != null)
             {
                 col.fonction = pe.fonction;
@@ -169,7 +171,7 @@ namespace ProjetFinalEval.Controllers
             {
                 col.IMAGEPE = pe.IMAGEPE;
             }
-            
+
 
 
             try
@@ -177,9 +179,9 @@ namespace ProjetFinalEval.Controllers
                 if (ModelState.IsValid)
                 {
                     bd.Entry(col).State = System.Data.Entity.EntityState.Modified;
-                    
+
                     bd.Entry(ass).State = System.Data.Entity.EntityState.Modified;
-                    
+
                     bd.SaveChanges();
                     return RedirectToAction("Index");
 
